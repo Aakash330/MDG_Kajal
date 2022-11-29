@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/storeMaterialCardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="20dp"
+    app:cardMaxElevation="20dp"
+    app:contentPadding="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/storeDefaultMaterialRadioButton"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="0dp"
+            android:buttonTint="@color/toolbar_dark_green"
+            android:padding="0dp"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:visibility="gone" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/storeNameMaterialTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/storeDefaultMaterialRadioButton"
+            android:layout_marginStart="7dp"
+            android:layout_toEndOf="@+id/storeDefaultMaterialRadioButton"
+            android:maxLines="2"
+            android:text="Store Name"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/storeNameMaterialTextView"
+            android:orientation="horizontal"
+            android:weightSum="200">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="100"
+                android:orientation="vertical">
+
+                <!--                <com.google.android.material.textview.MaterialTextView-->
+                <!--                    android:id="@+id/storeNameMaterialTextView"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:text="Store Name"-->
+                <!--                    android:textStyle="bold" />-->
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/storeAddressMaterialTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:ellipsize="end"
+                    android:maxLines="4"
+                    android:text="Store Address"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatRatingBar
+                        android:id="@+id/storeAppCompatRatingBar"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="100"
+                        android:isIndicator="true"
+                        android:numStars="5"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/viewAllRatingsMaterialTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:gravity="center"
+                        android:text="@string/view_all"
+                        android:textColor="@color/black"
+                        android:textStyle="italic"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1"
+                        app:layout_constraintStart_toEndOf="@+id/storeAppCompatRatingBar"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!--                <androidx.appcompat.widget.AppCompatRatingBar-->
+                <!--                    android:id="@+id/storeAppCompatRatingBar"-->
+                <!--                    style="?android:attr/ratingBarStyleSmall"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="5dp"-->
+                <!--                    android:isIndicator="true"-->
+                <!--                    android:numStars="5" />-->
+
+                <!--            <com.google.android.material.textview.MaterialTextView-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:text="Store Rating" />-->
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/storeOpenClosedMaterialTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/ic_arrow_drop_down_24"
+                    android:focusable="true"
+                    android:gravity="center_vertical"
+                    android:text="Store Open/Closed"
+                    android:textSize="12sp"
+                    android:textStyle="italic|bold" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="300">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/storeMobileAppCompatImageView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="100"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:src="@drawable/ic_call_24" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/storeWhatsappAppCompatImageView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="100"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:src="@drawable/whatsapp_icon"
+                        android:tint="@color/toolbar_dark_green" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/storeWebsiteAppCompatImageView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="100"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:src="@drawable/ic_language_24" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/homeDeliveryMaterialTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:drawableLeft="@drawable/ic_home_24"
+                    android:drawablePadding="5dp"
+                    android:drawableTint="@color/toolbar_dark_green"
+                    android:gravity="center_vertical"
+                    android:padding="5dp"
+                    android:text="Home Delivery"
+                    android:textColor="@color/toolbar_dark_green"
+                    android:textStyle="italic"
+                    android:visibility="visible" />
+
+                <!--                <com.google.android.material.textview.MaterialTextView-->
+                <!--                    android:id="@+id/storeMobNoMaterialTextView"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="5dp"-->
+                <!--                    android:drawableLeft="@drawable/ic_call_24"-->
+                <!--                    android:drawablePadding="5dp"-->
+                <!--                    android:gravity="center_vertical"-->
+                <!--                    android:padding="5dp"-->
+                <!--                    android:text="Store Mob. No." />-->
+
+                <!--                <com.google.android.material.textview.MaterialTextView-->
+                <!--                    android:id="@+id/storeWhatsappNoMaterialTextView"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="5dp"-->
+                <!--                    android:drawableLeft="@drawable/whatsapp_icon"-->
+                <!--                    android:drawablePadding="5dp"-->
+                <!--                    android:gravity="center_vertical"-->
+                <!--                    android:padding="5dp"-->
+                <!--                    android:text="Store Whatsapp No." />-->
+
+                <!--                <com.google.android.material.textview.MaterialTextView-->
+                <!--                    android:id="@+id/storeWebsiteMaterialTextView"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="5dp"-->
+                <!--                    android:drawableLeft="@drawable/ic_language_24"-->
+                <!--                    android:drawablePadding="5dp"-->
+                <!--                    android:gravity="center_vertical"-->
+                <!--                    android:padding="5dp"-->
+                <!--                    android:text="Store Website" />-->
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="100"
+                android:orientation="vertical">
+
+                <!--
+                        slideranimation duration is to set duration for transition between two slides
+                        sliderautocycledirection is to set animationbetween transition of your slides
+                        sliderindicator enables is used to display the indicators for slider
+                        slider indicator gravity is to set gravity for indicator gravity
+                        slider indicator margin is to set margin for indicator
+                        slider indicator orientation is used to add orientation for slider
+                        slider indicator padding is use to add padding to indicator
+                        slider indicator selected color is use to specify selected color
+                        and slider indicator unselected color is use to specify the color when the slider is unselected
+                        slider scroll time in sec is used to specify scrolling time in seconds
+                        -->
+                <com.smarteist.autoimageslider.SliderView
+                    android:id="@+id/sliderView"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center_vertical"
+                    app:sliderAnimationDuration="600"
+                    app:sliderAutoCycleDirection="back_and_forth"
+                    app:sliderIndicatorAnimationDuration="600"
+                    app:sliderIndicatorEnabled="true"
+                    app:sliderIndicatorGravity="center_horizontal|bottom"
+                    app:sliderIndicatorMargin="15dp"
+                    app:sliderIndicatorOrientation="horizontal"
+                    app:sliderIndicatorPadding="3dp"
+                    app:sliderIndicatorRadius="2dp"
+                    app:sliderIndicatorSelectedColor="#5A5A5A"
+                    app:sliderIndicatorUnselectedColor="#FFF"
+                    app:sliderScrollTimeInSec="1" />
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_weight="100"-->
+
+                <!--                <androidx.appcompat.widget.LinearLayoutCompat-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:orientation="horizontal"-->
+                <!--                    android:weightSum="200">-->
+
+                <!--                    <androidx.appcompat.widget.AppCompatImageView-->
+                <!--                        android:id="@+id/codAppCompatImageView"-->
+                <!--                        android:layout_width="0dp"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_marginEnd="5dp"-->
+                <!--                        android:layout_weight="100"-->
+                <!--                        app:srcCompat="@drawable/ic_money_24" />-->
+
+                <!--                    <androidx.appcompat.widget.AppCompatImageView-->
+                <!--                        android:id="@+id/homeDeliveryAppCompatImageView"-->
+                <!--                        android:layout_width="0dp"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_marginStart="5dp"-->
+                <!--                        android:layout_weight="100"-->
+                <!--                        app:srcCompat="@drawable/ic_home_24" />-->
+
+                <!--                </androidx.appcompat.widget.LinearLayoutCompat>-->
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

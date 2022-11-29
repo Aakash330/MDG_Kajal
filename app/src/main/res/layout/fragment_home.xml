@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLinearLayoutCompat"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:visibility="invisible"
+    tools:context=".UI.Fragments.HomeFragment">
+
+    <com.smarteist.autoimageslider.SliderView
+        android:id="@+id/couponsSliderView"
+        android:layout_width="match_parent"
+        android:layout_height="18dp"
+        app:sliderAnimationDuration="600"
+        app:sliderAutoCycleDirection="back_and_forth"
+        app:sliderIndicatorEnabled="false"
+        app:sliderScrollTimeInSec="1" />
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/homeMaterialToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/toolbar_dark_green"
+        android:elevation="5dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="300">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/homeStoreLogoAppCompatImageView"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="30"
+                app:srcCompat="@drawable/ic_image_24" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/homeStoreTitleMaterialTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="230"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:paddingHorizontal="10dp"
+                android:text="@string/placeholder_text"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/reloadAppCompatImageButton"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="7dp"
+                android:layout_weight="20"
+                android:background="@color/toolbar_dark_green"
+                android:visibility="invisible"
+                app:srcCompat="@drawable/ic_refresh_24" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/notificationAppCompatImageButton"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="20"
+                android:background="@color/toolbar_dark_green"
+                app:srcCompat="@drawable/ic_notifications_24" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/swipeDownHelpMaterialTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/please_swipe_down_to_refresh_home_page_amp_cart"
+        android:textColor="#FF0000"
+        android:textStyle="italic"
+        android:visibility="gone" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/grey_bg"
+        app:cardCornerRadius="20dp"
+        app:cardPreventCornerOverlap="true"
+        app:contentPaddingBottom="7dp"
+        app:contentPaddingRight="7dp"
+        app:contentPaddingTop="7dp">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/homeSearchView"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@android:color/transparent"
+            android:focusedByDefault="false"
+            android:requiresFadingEdge="horizontal"
+            android:theme="@style/SearchViewStyle"
+            app:iconifiedByDefault="false"
+            app:queryBackground="@color/white"
+            app:queryHint="Search by Product, Brand &amp; more..." />
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/categoryRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        tools:itemCount="3"
+        tools:listitem="@layout/layout_category_row" />
+
+    <!--TESTING - START-->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/search_categoryNestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_categoryRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.core.widget.NestedScrollView>
+    <!--TESTING - END-->
+
+    <!--Scrolling from this point onwards-->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/homeNestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!--                <com.google.android.material.textview.MaterialTextView-->
+            <!--                    android:id="@+id/swipeDownHelpMaterialTextView"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:gravity="center"-->
+            <!--                    android:text="@string/please_swipe_down_to_refresh_home_page_amp_cart"-->
+            <!--                    android:textColor="#FF0000"-->
+            <!--                    android:textStyle="italic"-->
+            <!--                    android:visibility="gone" />-->
+
+            <!--                <com.google.android.material.card.MaterialCardView-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    app:cardBackgroundColor="@color/grey_bg"-->
+            <!--                    app:cardCornerRadius="20dp"-->
+            <!--                    app:cardPreventCornerOverlap="true"-->
+            <!--                    app:contentPaddingBottom="7dp"-->
+            <!--                    app:contentPaddingRight="7dp"-->
+            <!--                    app:contentPaddingTop="7dp">-->
+
+            <!--                    <androidx.appcompat.widget.SearchView-->
+            <!--                        android:id="@+id/homeSearchView"-->
+            <!--                        android:layout_width="match_parent"-->
+            <!--                        android:layout_height="30dp"-->
+            <!--                        android:background="@android:color/transparent"-->
+            <!--                        android:focusedByDefault="false"-->
+            <!--                        android:requiresFadingEdge="horizontal"-->
+            <!--                        android:theme="@style/SearchViewStyle"-->
+            <!--                        app:iconifiedByDefault="false"-->
+            <!--                        app:queryBackground="@color/white"-->
+            <!--                        app:queryHint="Search by Product, Brand &amp; more..." />-->
+            <!--                </com.google.android.material.card.MaterialCardView>-->
+
+            <!--                <androidx.recyclerview.widget.RecyclerView-->
+            <!--                    android:id="@+id/categoryRecyclerView"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginTop="5dp" />-->
+
+            <com.smarteist.autoimageslider.SliderView
+                android:id="@+id/banner1SliderView"
+                android:layout_width="match_parent"
+                android:layout_height="118dp"
+                android:minHeight="125dp"
+                app:sliderAnimationDuration="600"
+                app:sliderAutoCycleDirection="back_and_forth"
+                app:sliderIndicatorAnimationDuration="600"
+                app:sliderIndicatorEnabled="true"
+                app:sliderIndicatorGravity="center_horizontal|bottom"
+                app:sliderIndicatorMarginBottom="10dp"
+                app:sliderIndicatorOrientation="horizontal"
+                app:sliderIndicatorPadding="3dp"
+                app:sliderIndicatorRadius="2dp"
+                app:sliderIndicatorSelectedColor="#5A5A5A"
+                app:sliderIndicatorUnselectedColor="#FFF"
+                app:sliderScrollTimeInSec="1" />
+            <!--android:layout_height="150dp"-->
+            <!--app:sliderIndicatorMargin="15dp"-->
+            <!--android:background="@color/toolbar_dark_green"-->
+
+            <include
+                android:id="@+id/banner2Include"
+                layout="@layout/layout_banner1_row"
+                android:visibility="visible" />
+
+            <!--                <com.google.android.material.tabs.TabLayout-->
+            <!--                    android:id="@+id/homeTabLayout"-->
+            <!--                    style="@style/RoundedTabLayoutStyle"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginHorizontal="5dp">-->
+
+            <!--                </com.google.android.material.tabs.TabLayout>-->
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/homeTabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:background="@drawable/tab_layout_bg"
+                app:tabGravity="fill"
+                app:tabIndicatorAnimationMode="linear"
+                app:tabIndicatorColor="@color/toolbar_dark_green"
+                app:tabIndicatorFullWidth="false"
+                app:tabIndicatorGravity="bottom"
+                app:tabIndicatorHeight="5dp"
+                app:tabMode="fixed"
+                app:tabSelectedTextColor="@color/toolbar_dark_green"
+                app:tabTextColor="@color/black">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/best_deals" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/recently_added" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/hot_selling" />
+
+            </com.google.android.material.tabs.TabLayout>
+
+            <!-- ViewPager2 for hosting the three tab fragments. -->
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/homeTabFragmentViewPager2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+</androidx.appcompat.widget.LinearLayoutCompat>

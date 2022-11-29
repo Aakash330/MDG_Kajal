@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/storeLocatorSwipeRefreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    tools:context=".UI.Activities.StoreLocatorActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/openLoginMaterialButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:drawableLeft="@drawable/cf_card_person"
+                android:drawableTint="@color/white"
+                android:text="@string/to_login"
+                android:layout_margin="10dp"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="@string/locate_a_grocery_store"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/useCurrentLocationMaterialButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:drawableLeft="@drawable/ic_my_location_24"
+                android:drawableTint="@color/white"
+                android:text="@string/use_my_current_location" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="@string/or"
+                android:textSize="18sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/searchByStoreNameTextInputLayout"
+                style="@style/TextInputLayout.OutlinedBox.ClearText"
+                android:layout_marginTop="10dp"
+                android:hint="@string/search_by_store_name"
+                app:endIconMode="dropdown_menu"
+                app:errorEnabled="true"
+                android:layout_marginHorizontal="10dp"
+                app:startIconDrawable="@drawable/ic_store_24"
+                app:startIconTint="@color/toolbar_dark_green">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/searchByStoreNameMaterialAutoCompleteTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:completionThreshold="3"
+                    android:inputType="textAutoComplete"
+                    android:paddingHorizontal="10dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="@string/or"
+                android:textSize="18sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/searchByCityNameTextInputLayout"
+                style="@style/TextInputLayout.OutlinedBox.ClearText"
+                android:layout_marginTop="10dp"
+                android:hint="@string/search_store_by_city"
+                app:endIconMode="dropdown_menu"
+                app:errorEnabled="true"
+                android:layout_marginHorizontal="10dp"
+                app:startIconDrawable="@drawable/ic_location_24"
+                app:startIconTint="@color/toolbar_dark_green">
+
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/searchByCityNameMaterialAutoCompleteTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:completionThreshold="3"
+                    android:inputType="textAutoComplete"
+                    android:paddingHorizontal="10dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/ownGroceryStoreMaterialButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="30dp"
+                android:layout_marginHorizontal="10dp"
+                android:drawableLeft="@drawable/ic_arrow_forward_24"
+                android:drawableTint="@color/white"
+                android:text="@string/want_to_launch_your_own_online_grocery_store" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/visitedStoresTitleMaterialTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/toolbar_dark_green"
+                android:gravity="center"
+                android:text="@string/visited_stores"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/visitedStoresRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:visibility="gone" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

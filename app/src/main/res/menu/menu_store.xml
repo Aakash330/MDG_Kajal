@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home"
+        android:menuCategory="secondary"
+        android:title="@string/home"
+        android:icon="@drawable/ic_home_24"/>
+
+    <item
+        android:id="@+id/stores"
+        android:menuCategory="secondary"
+        android:icon="@drawable/ic_store_24"
+        android:title="@string/stores" />
+
+    <item
+        android:id="@+id/account"
+        android:icon="@drawable/ic_account_circle_24"
+        android:menuCategory="secondary"
+        android:title="@string/account" />
+
+    <item
+        android:id="@+id/regularList"
+        android:menuCategory="secondary"
+        android:icon="@drawable/ic_list_24"
+        android:title="@string/regular_list" />
+
+    <item
+        android:id="@+id/cart"
+        android:icon="@drawable/ic_shopping_cart_24"
+        android:menuCategory="secondary"
+        android:title="@string/cart" />
+
+</menu>

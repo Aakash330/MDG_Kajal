@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/productMaterialCardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="5dp"
+    app:cardPreventCornerOverlap="true">
+<!--app:cardBackgroundColor="#F7FFF6"-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/productTitleCartMaterialTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:lines="2"
+            android:maxLines="3"
+            android:padding="5dp"
+            android:text="Product 1"
+            android:textColor="@color/toolbar_dark_green"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/productImageCartAppCompatImageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/productTitleCartMaterialTextView"
+            app:srcCompat="@drawable/ic_home_24" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/priceCartMaterialTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="5dp"
+            android:maxLines="2"
+            android:text="@string/price"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@+id/productImageCartAppCompatImageView"
+            app:layout_constraintTop_toBottomOf="@+id/productTitleCartMaterialTextView" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/qtyLinearLayoutCompat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="7dp"
+            app:layout_constraintStart_toEndOf="@+id/productImageCartAppCompatImageView"
+            app:layout_constraintTop_toBottomOf="@+id/priceCartMaterialTextView">
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/decrementProdCartAppCompatImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_minus_24"
+                android:visibility="visible" />
+            <!--app:layout_constraintStart_toEndOf="@+id/productImageCartAppCompatImageView"
+                app:layout_constraintTop_toBottomOf="@+id/productTitleCartMaterialTextView" -->
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/prodQtyCartMaterialTextView"
+                android:layout_width="27dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:maxLines="2"
+                android:text="0"
+                android:textSize="12sp"
+                android:visibility="visible" />
+            <!--app:layout_constraintEnd_toStartOf="@+id/incrementProdCartAppCompatImageButton"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/decrementProdCartAppCompatImageButton"
+                app:layout_constraintTop_toBottomOf="@+id/productTitleCartMaterialTextView" -->
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/incrementProdCartAppCompatImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add_24"
+                android:visibility="visible" />
+            <!--app:layout_constraintStart_toEndOf="@+id/prodQtyCartMaterialTextView"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/productTitleCartMaterialTextView" -->
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/subTotalPriceCartMaterialTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="5dp"
+            android:maxLines="2"
+            android:text="@string/subTotal"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/productImageCartAppCompatImageView"
+            app:layout_constraintTop_toBottomOf="@+id/qtyLinearLayoutCompat" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/prodWeightCartMaterialTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:maxLines="2"
+            android:text="@string/weight"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/productImageCartAppCompatImageView"
+            app:layout_constraintTop_toBottomOf="@+id/subTotalPriceCartMaterialTextView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

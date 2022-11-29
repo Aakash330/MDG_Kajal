@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/couponNameMaterialTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:ellipsize="marquee"
+        android:lines="1"
+        android:maxLines="1"
+        android:paddingHorizontal="10dp"
+        android:text="Coupon Row"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>

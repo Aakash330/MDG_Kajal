@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UI.Activities.PlaceOrderActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/placeOrderMaterialToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/toolbar_dark_green"
+        android:elevation="5dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/place_order"
+            android:textColor="@color/white"
+            android:textSize="22sp" />
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/paymentModeMaterialTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/placeOrderMaterialToolbar"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginTop="10dp"
+        android:text="Mode of Payment"
+        android:textStyle="bold"
+        android:textSize="20sp" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/paymentModeMaterialTextView"
+        android:orientation="horizontal">
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/codMaterialButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cash On Delivery (COD)"
+            app:buttonTint="@color/toolbar_dark_green" />
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/onlinePaymentMaterialButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Online Payment"
+            app:buttonTint="@color/toolbar_dark_green" />
+
+    </RadioGroup>
+
+
+
+</RelativeLayout>

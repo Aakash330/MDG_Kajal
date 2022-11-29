@@ -1,0 +1,3 @@
+Key alias=MDGC
+key password=MDGcust2022
+storePassword=MDGcust2022

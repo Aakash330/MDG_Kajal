@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/searchProductsNestedScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/storeRatingsTitleMaterialTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_star_rate_24"
+            android:drawablePadding="5dp"
+            android:text="@string/store_ratings"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/storeRatingAverageMaterialTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/storeRatingsTitleMaterialTextView"
+            android:drawableEnd="@drawable/ic_star_rate_24"
+            android:drawablePadding="5dp"
+            android:gravity="end"
+            android:text="@string/average"
+            android:textColor="@color/text_green"
+            android:textSize="20sp"
+            android:textStyle="bold|italic"
+            app:drawableTint="@color/toolbar_dark_green" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/allRatingsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/storeRatingsTitleMaterialTextView"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/recycler_view_rounded_corners"
+            android:nestedScrollingEnabled="false" />
+
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>

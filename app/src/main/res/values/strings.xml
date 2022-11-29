@@ -1,0 +1,186 @@
+<resources>
+    <string name="app_name">MyDailyGoods</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--dialog_loading.xml-->
+    <string name="loading">LOADING …</string>
+    <!--dialog_loading.xml - END-->
+
+    <!--dialog_fetching_location.xml-->
+    <string name="fetching_location">FETCHING LOCATION …</string>
+    <string name="dont_turn_off_gps">Please do not turn off GPS. If off, please turn on.</string>
+    <!--dialog_fetching_location.xml - END-->
+
+    <!--dialog_processing_info.xml-->
+    <string name="processing_info">PROCESSING INFO …</string>
+    <!--dialog_processing_info.xml - END-->
+
+    <!--activity_login.xml-->
+    <string name="login">LOGIN</string>
+    <string name="mob_no_asterix">Mobile No. <font color="red">*</font></string>
+    <string name="otp_asterix">OTP <font color="red">*</font></string>
+    <string name="password_asterix">Password <font color="red">*</font></string>
+    <string name="new_member_proceed_to_register">New Member? Proceed to Register!</string>
+    <string name="forgot_password"><u>Forgot Password</u></string>
+    <string name="register">REGISTER</string>
+    <string name="first_name">First Name <font color="red">*</font></string>
+    <string name="last_name">Last Name <font color="red">*</font></string>
+    <string name="email">Email</string>
+    <string name="street_address_asterix">Street Address <font color="red">*</font></string>
+    <string name="landmark">Landmark (Optional)</string>
+    <string name="state_asterix">State <font color="red">*</font></string>
+    <string name="city_asterix">City <font color="red">*</font></string>
+    <string name="zipcode_asterix">Zipcode <font color="red">*</font></string>
+    <string name="existing_member_proceed_to_login">Existing Member? Proceed to Login!</string>
+    <string name="confirm_password_asterix">Confirm Password <font color="red">*</font></string>
+    <string name="send_otp">Send OTP</string>
+    <string name="agree_with_terms_amp_conditions"><a href="https://www.mydailygoods.com/privacy-policy"><![CDATA[Agree With Terms & Conditions]]></a></string>
+    <!--activity_login.xml - END-->
+
+    <!--DialogUtil.java-->
+    <string name="no_internet_msg_toast">Please provide Internet Access &amp; try again!</string>
+    <!--DialogUtil.java - END-->
+
+    <!--activity_store_locator.xml-->
+    <string name="to_login">To Login</string>
+    <string name="locate_a_grocery_store">LOCATE A GROCERY STORE</string>
+    <string name="use_my_current_location">Use my Current Location</string>
+    <string name="or">OR</string>
+    <string name="search_by_store_name">Search By Store Name</string>
+    <string name="search_store_by_city">Search Store By City</string>
+    <string name="want_to_launch_your_own_online_grocery_store">Want to launch your own Online Grocery Store ?</string>
+    <string name="visited_stores">VISITED STORES</string>
+    <!--activity_store_locator.xml - END-->
+
+    <!--layout_store_row.xml-->
+    <string name="view_all"><u>View All</u></string>
+    <string name="rate_us"><u>Rate Us</u></string>
+    <!--layout_store_row.xml - END-->
+
+    <!--fragment_home.xml-->
+    <string name="best_deals">Best Deals</string>
+    <string name="recently_added">Recently Added</string>
+    <string name="hot_selling">Hot Selling</string>
+    <string name="please_swipe_down_to_refresh_home_page_amp_cart"><![CDATA[Please Swipe Down to Refresh Home Page & Cart!]]></string>
+    <!--fragment_home.xml - END-->
+
+    <!--menu_store.xml-->
+    <string name="home">Home</string>
+    <string name="stores">Stores</string>
+    <string name="account">Account</string>
+    <string name="regular_list">Regular List</string>
+    <string name="cart">Cart</string>
+    <!--menu_store.xml - END-->
+
+    <!--fragment_cart.xml-->
+    <string name="place_order">Place Order</string>
+    <string name="cart_total">Cart Total</string>
+    <string name="self_pickup_is_also_allowed_zero_delivery_charges_in_this_case">Self Pickup is also allowed! Zero delivery charges in this case!</string>
+    <string name="total_price">Total Price</string>
+    <string name="you_saved">You Saved</string>
+    <string name="flat_shipping_cost">Flat Shipping Cost</string>
+    <string name="total_payable">Total Payable</string>
+    <string name="shop_address">Shop Address</string>
+    <string name="shop_mob_no">Shop Mobile No.</string>
+    <string name="delivery_address">Delivery Address</string>
+    <string name="available_coupons">Available Coupons</string>
+    <string name="available_freebies">Available Freebies</string>
+    <!--fragment_cart.xml - END-->
+
+    <!--layout_cart_row.xml-->
+    <string name="price">Price: </string>
+    <string name="subTotal">SubTotal: </string>
+    <string name="weight">Weight: </string>
+    <string name="add_delivery_address">Add Delivery Address</string>
+    <string name="freebie">(FREEBIE)</string>
+    <!--layout_cart_row.xml - END-->
+
+    <!--fragment_dialog_delivery_address.xml-->
+    <string name="add">Add</string>
+    <string name="update">Update</string>
+    <string name="update_delivery_address">Update Delivery Address</string>
+    <!--fragment_dialog_delivery_address.xml - END-->
+
+    <!--layout_delivery_address_row.xml-->
+    <string name="set_default">SET DEFAULT</string>
+    <string name="buyer_delivery_address">Buyer Delivery Address</string>
+    <string name="edit">Edit</string>
+    <!--layout_delivery_address_row.xml - END-->
+
+    <!--AccountFragment.xml-->
+    <string name="order_history">Order History</string>
+    <!--AccountFragment.xml - END-->
+
+    <!--activity_order_history.xml-->
+    <string name="month">Month</string>
+    <!--activity_order_history.xml - END-->
+
+    <!--bottomsheetdialog_order_products.xml-->
+    <string name="order_details">Order Details:</string>
+    <string name="print">Print</string>
+    <string name="cancel_order">Cancel Order</string>
+    <!--bottomsheetdialog_order_products.xml - END-->
+
+    <!--MDGCustomerApp.java-->
+    <string name="firebase_notification_channel_id">mdgCustomerFirebaseNotification</string>
+    <!--MDGCustomerApp.java - END-->
+
+    <!--bottomsheetdialog_search_products.xml-->
+    <string name="product_search_results">Product Search Results:</string>
+    <string name="product_category_based_results">Product Category Based Results:</string>
+    <!--bottomsheetdialog_search_products.xml - END-->
+
+    <!--bottomsheetdialog_all_ratings.xml-->
+    <string name="store_ratings">Store Ratings</string>
+    <string name="average">Average: </string>
+    <!--bottomsheetdialog_all_ratings.xml - END-->
+
+    <!--bottomsheetdialog_rate_store.xml-->
+    <string name="rate_store">Rate Store</string>
+    <string name="store_name">Store Name</string>
+    <string name="review">Review</string>
+    <string name="store_review">Store Review <font color="red">*</font></string>
+    <string name="rate">Rate</string>
+    <!--bottomsheetdialog_rate_store.xml - END-->
+
+    <!--activity_change_password.xml-->
+    <string name="change_password">Change Password</string>
+    <string name="old_password_asterix">Old Password <font color="red">*</font></string>
+    <string name="new_password_asterix">New Password <font color="red">*</font></string>
+    <!--activity_change_password.xml - END-->
+
+    <!--Firebase Notifications-->
+    <string name="default_notification_channel_id">MDG Notification Channel Id</string>
+    <string name="channel_name">MDG Notification</string>
+    <string name="channel_description">MDG Firebase Notifications</string>
+    <!--Firebase Notifications - END-->
+
+    <string name="server_didnt_respond">Somehow Server didn\'t respond!\nPLease try again later!</string>
+
+    <!--activity_forgot_password.xml-->
+    <string name="mobile_number_asterix">Mobile Number <font color="red">*</font></string>
+    <string name="enter_otp_asterix">Enter OTP <font color="red">*</font></string>
+    <string name="new_password">New Password <font color="red">*</font></string>
+    <string name="reset_password">Reset Password</string>
+    <!--activity_forgot_password.xml - END-->
+
+    <string name="placeholder_text">…</string>
+    <string name="rupee_symbol">\u20B9</string>
+
+    <!--activity_product_details.xml-->
+    <string name="add_to_cart">Add To Cart</string>
+    <string name="rate_product">Rate Product</string>
+    <string name="view_all_ratings"><u>VIEW ALL RATINGS</u></string>
+    <string name="product_ratings">Product Ratings</string>
+    <!--activity_product_details.xml - END-->
+
+    <string name="product_review">Product Review <font color="red">*</font></string>
+
+    <!--GENERAL-->
+<!--    <string name="weak_internet_connection">Weak Internet Connection! Request Failed!\nPlease try again later!</string>-->
+    <string name="weak_internet_connection">Connection Timeout Error!\nPlease try again now or sometime later!</string>
+    <string name="connection_timed_out">Connection Timeout Error!\nPlease try again now or sometime later!</string>
+    <!--GENERAL - END-->
+
+</resources>

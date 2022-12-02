@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -85,7 +86,8 @@ public class MDGCustomerApp extends Application {
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
-                //activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+                Log.w("state","onAcvityCreate");
+              //  activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
                 Log.i(TAG, "onActivityCreated: fired!");
                 Log.i(TAG, "onActivityCreated: activity.toString(): " + activity.toString());
 
@@ -99,6 +101,7 @@ public class MDGCustomerApp extends Application {
 
             @Override
             public void onActivityStarted(@NonNull Activity activity) {
+                Log.w("state","onActivityStarted");
                 Log.i(TAG, "onActivityStarted: fired!");
                 Log.i(TAG, "onActivityStarted: activity.toString(): " + activity.toString());
 
@@ -112,13 +115,15 @@ public class MDGCustomerApp extends Application {
 
             @Override
             public void onActivityResumed(@NonNull Activity activity) {
-                Log.i(TAG, "onActivityResumed: fired!");
+                Log.w("state","onActivityResumed");
+
+                Log.i(TAG, "onActivityResumed: onActivityResumed fired!");
                 Log.i(TAG, "onActivityResumed: activity.toString(): " + activity.toString());
 
                 Log.i(TAG, "onActivityResumed: Before, ApplicationData.getDefaultStoreId(): " + ApplicationData.getDefaultStoreId());
                 if (ApplicationData.getDefaultStoreId() == 0) {
                     Log.i(TAG, "onActivityResumed: ApplicationData.getDefaultStoreId() was 0.");
-                    ApplicationData.setDefaultStoreId(sharedPreferences.getInt(SharedPreferencesManager.defaultStoreId, 0));
+                    ApplicationData.setDefaultStoreId(sharedPreferences.getInt(SharedPreferencesManager.defaultStoreId, 0));//@kajal
                     Toast.makeText(getApplicationContext(), "Id " + sharedPreferences.getInt(SharedPreferencesManager.defaultStoreId, 0), Toast.LENGTH_SHORT).show();
                 }
                 Log.i(TAG, "onActivityResumed: After, ApplicationData.getDefaultStoreId(): " + ApplicationData.getDefaultStoreId());
@@ -126,21 +131,25 @@ public class MDGCustomerApp extends Application {
 
             @Override
             public void onActivityPaused(@NonNull Activity activity) {
+                Log.w("state","onActivityPaused");
 
             }
 
             @Override
             public void onActivityStopped(@NonNull Activity activity) {
+                Log.w("state","onActivityStopped");
 
             }
 
             @Override
             public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {
+                Log.w("state","onActivitySaveInstanceState");
 
             }
 
             @Override
             public void onActivityDestroyed(@NonNull Activity activity) {
+                Log.w("state","onActivityDestroyed");
 
             }
         });

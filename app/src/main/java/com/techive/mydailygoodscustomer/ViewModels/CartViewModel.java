@@ -93,8 +93,9 @@ public class CartViewModel extends AndroidViewModel {
         placeOrderMutableLiveData = cartRepository.getPlaceOrderMutableLiveData();
         cashFreeOrderMutableLiveData = cartRepository.getCashFreeOrderMutableLiveData();
         splitOrderResponseMutableLiveData = cartRepository.getSplitOrderResponseMutableLiveData();
-        orderAcceptResponseMutableLiveData = cartRepository.getOrderAcceptResponseMutableLiveData();
-        orderAcceptCartFragmentResponseMutableLiveData = cartRepository.getOrderAcceptCartFragmentResponseMutableLiveData();//@kajal 11_16_22
+       // orderAcceptResponseMutableLiveData = cartRepository.getOrderAcceptResponseMutableLiveData();
+        orderAcceptCartFragmentResponseMutableLiveData = cartRepository.getOrderAcceptCartFragmentResponseMutableLiveData();
+       // orderAcceptCartFragmentResponseMutableLiveData = cartRepository.getOrderAcceptCartFragmentResponseMutableLiveData();//@kajal 11_16_22
         prodAddAcceptResponseMutableLiveData = cartRepository.getProdAddAcceptResponseMutableLiveData();
 
         toBeNotifiedProdIdQtyHashMap = new HashMap<>();
@@ -175,9 +176,10 @@ public class CartViewModel extends AndroidViewModel {
         cartRepository.setSplitOrderResponseMutableLiveData(splitOrderResponse);
     }
 
-    public void setOrderAcceptResponseMutableLiveData(OrderAcceptResponse orderAcceptResponse) {
+    public void setOrderAcceptResponseMutableLiveData(OrderAcceptCartFragmentResponse orderAcceptResponse) {
         cartRepository.setOrderAcceptResponseMutableLiveData(orderAcceptResponse);
     }
+
 
     public void setCartMutableLiveData(Cart cart) {
         cartRepository.setCartMutableLiveData(cart);
@@ -262,31 +264,37 @@ public class CartViewModel extends AndroidViewModel {
 
     public void updateCartDataUponCompletelyRemove(int productId) {
         Log.i(TAG, "updateCartDataUponCompletelyRemove: fired! productId: " + productId);
+        //changeA
+        try{
+            if(cart.getCart_data().getData().equals(null))
+                return;
+            for (int i = 0; i < cart.getCart_data().getData().size(); i++) {
+                if (cart.getCart_data().getData().get(i).getProd_id() == productId) {
 
-        for (int i = 0; i < cart.getCart_data().getData().size(); i++) {
-            if (cart.getCart_data().getData().get(i).getProd_id() == productId) {
+                    Log.i(TAG, "updateCartDataUponCompletelyRemove: BEFORE, cart.getCart_data().getData().get(i): "
+                            + cart.getCart_data().getData().get(i));
+                    int totalQty = cart.getCart_data().getData().get(i).getQty();
+                    Log.i(TAG, "updateCartDataUponCompletelyRemove: totalQty: " + totalQty);
+                    float totalPriceFloat = Float.parseFloat(cart.getCart_data().getData().get(i).getTotalPrice());
+                    Log.i(TAG, "updateCartDataUponCompletelyRemove: totalPriceFloat: " + totalPriceFloat);
+                    float singlePriceFloat = (totalPriceFloat / totalQty);
+                    Log.i(TAG, "updateCartDataUponCompletelyRemove: singlePriceFloat: " + singlePriceFloat);
 
-                Log.i(TAG, "updateCartDataUponCompletelyRemove: BEFORE, cart.getCart_data().getData().get(i): "
-                        + cart.getCart_data().getData().get(i));
-                int totalQty = cart.getCart_data().getData().get(i).getQty();
-                Log.i(TAG, "updateCartDataUponCompletelyRemove: totalQty: " + totalQty);
-                float totalPriceFloat = Float.parseFloat(cart.getCart_data().getData().get(i).getTotalPrice());
-                Log.i(TAG, "updateCartDataUponCompletelyRemove: totalPriceFloat: " + totalPriceFloat);
-                float singlePriceFloat = (totalPriceFloat / totalQty);
-                Log.i(TAG, "updateCartDataUponCompletelyRemove: singlePriceFloat: " + singlePriceFloat);
+                    float savingsFloat = Float.parseFloat(cart.getCart_data().getData().get(i).getSaving());
+                    float singleSavingFloat = savingsFloat / totalQty;
 
-                float savingsFloat = Float.parseFloat(cart.getCart_data().getData().get(i).getSaving());
-                float singleSavingFloat = savingsFloat / totalQty;
+                    //UPDATING TOTAL PRICE & TOTAL SAVING.
+                    float totalSavingsFloat = Float.parseFloat(cart.getCart_data().getTotal_savings());
+                    float grossTotalPriceFloat = Float.parseFloat(cart.getCart_data().getTotal_price());
+                    cart.getCart_data().setTotal_price(String.valueOf((grossTotalPriceFloat - singlePriceFloat)));
+                    cart.getCart_data().setTotal_savings(String.valueOf((totalSavingsFloat - singleSavingFloat)));
 
-                //UPDATING TOTAL PRICE & TOTAL SAVING.
-                float totalSavingsFloat = Float.parseFloat(cart.getCart_data().getTotal_savings());
-                float grossTotalPriceFloat = Float.parseFloat(cart.getCart_data().getTotal_price());
-                cart.getCart_data().setTotal_price(String.valueOf((grossTotalPriceFloat - singlePriceFloat)));
-                cart.getCart_data().setTotal_savings(String.valueOf((totalSavingsFloat - singleSavingFloat)));
-
-                cart.getCart_data().getData().remove(i);
+                    cart.getCart_data().getData().remove(i);
+                }
             }
-        }
+        }catch (Exception ee){}
+
+
     }
 
     public boolean checkCouponApplicability(Cart_CartData_Coupons cart_cartData_coupons) {
@@ -445,7 +453,7 @@ public class CartViewModel extends AndroidViewModel {
     public boolean checkVendorOrderAcceptance() {
         Log.i(TAG, "checkVendorOrderAcceptance: fired!");
 
-        return cartRepository.checkVendorOrderAcceptance();
+        return cartRepository.checkVendorOrderCartFragmentAcceptance();
     }
 
     //TO CHECK IF PROD CAN BE ADDED TO CART

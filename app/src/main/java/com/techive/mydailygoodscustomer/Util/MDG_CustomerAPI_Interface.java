@@ -3,6 +3,7 @@ package com.techive.mydailygoodscustomer.Util;
 import com.techive.mydailygoodscustomer.Models.APIResponse.GeneralResponse;
 import com.techive.mydailygoodscustomer.Models.APIResponse.LoginResponse;
 import com.techive.mydailygoodscustomer.Models.APIResponse.OTPResponse;
+import com.techive.mydailygoodscustomer.Models.APIResponse.OrderAcceptCartFragmentResponse;
 import com.techive.mydailygoodscustomer.Models.APIResponse.OrderAcceptResponse;
 import com.techive.mydailygoodscustomer.Models.APIResponse.SplitOrderResponse;
 import com.techive.mydailygoodscustomer.Models.BuyerAddAddressModel;
@@ -181,6 +182,11 @@ public interface MDG_CustomerAPI_Interface {
     @POST("vendor-order-status-check")
     Call<OrderAcceptResponse> checkVendorOrderAcceptance(@Query("v_id") int vendorId,
                                                          @Query("buy_id") int buyerId);
+
+    //changeA 9.1
+    @POST("vendor-order-status-check")
+    Call<OrderAcceptCartFragmentResponse> checkVendorOrderCartAcceptance(@Query("v_id") int vendorId,
+                                                                         @Query("buy_id") int buyerId);
 
     @GET("user-products-bycategory")
     Call<SearchProducts> getProductsByCategory(@Query("user") int vendorId,

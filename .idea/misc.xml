@@ -3,7 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/techive/MyDailyGoodsCustomer final/app/src/main/res/layout/activity_parent.xml" value="0.33" />
+        <entry key="..\:/techive/MyDailyGoodsCustomer final/app/src/main/res/layout/dialog_processing_info.xml" value="0.2864583333333333" />
         <entry key="..\:/techive/MyDailyGoodsCustomer final/app/src/main/res/layout/fragment_cart.xml" value="0.36666666666666664" />
+        <entry key="..\:/techive/MyDailyGoodsCustomer final/app/src/main/res/layout/layout_slider_view_row.xml" value="0.1" />
+        <entry key="..\:/techive/MyDailyGoodsCustomer final/app/src/main/res/menu/menu_store.xml" value="0.2734375" />
       </map>
     </option>
   </component>

@@ -226,7 +226,9 @@ public class CartRepository {
     public void setOrderAcceptResponseMutableLiveData(OrderAcceptResponse orderAcceptResponse) {
         orderAcceptResponseMutableLiveData.setValue(orderAcceptResponse);
     }
-
+    public void setOrderAcceptResponseMutableLiveData(OrderAcceptCartFragmentResponse orderAcceptResponse) {
+        orderAcceptCartFragmentResponseMutableLiveData.setValue(orderAcceptResponse);
+    }
     public void setProdAddAcceptResponseMutableLiveData(OrderAcceptResponse orderAcceptResponse) {
         prodAddAcceptResponseMutableLiveData.setValue(orderAcceptResponse);
     }
@@ -741,7 +743,54 @@ public class CartRepository {
         }
         return false;
     }
+    //changeA 9
+    public boolean checkVendorOrderCartFragmentAcceptance() {
 
+        Log.i(TAG, "checkVendorOrderAcceptance: fired! ");
+
+        if (!NetworkUtil.networkConnectivityStatus(applicationContext).equals("No Internet Available!")) {
+            Log.i(TAG, "checkVendorOrderAcceptance: Network Available!");
+
+            Call<OrderAcceptCartFragmentResponse> orderAcceptResponseCall = ApplicationData.mdg_customerAPI_interface.
+                    checkVendorOrderCartAcceptance(ApplicationData.getDefaultStoreId(), ApplicationData.getLoggedInBuyerId());
+            orderAcceptResponseCall.enqueue(new Callback<OrderAcceptCartFragmentResponse>() {
+                @Override
+                public void onResponse(Call<OrderAcceptCartFragmentResponse> call, Response<OrderAcceptCartFragmentResponse> response) {
+                    Log.i(TAG, "onResponse: ORDER ACCEPT Response seems to be a success!");
+
+                    if (!response.isSuccessful()) {
+                        OrderAcceptCartFragmentResponse orderAcceptResponseUnsuccessful = new OrderAcceptCartFragmentResponse(applicationContext.getString(R.string.server_didnt_respond), -1, response.code());
+                        orderAcceptCartFragmentResponseMutableLiveData.setValue(orderAcceptResponseUnsuccessful);
+                        return;
+                    }
+                    OrderAcceptCartFragmentResponse orderAcceptResponse = response.body();
+                    Log.i(TAG, "onResponse: orderAcceptResponse: " + orderAcceptResponse);
+
+                    orderAcceptCartFragmentResponseMutableLiveData.setValue(orderAcceptResponse);
+
+                }
+
+                @Override
+                public void onFailure(Call<OrderAcceptCartFragmentResponse> call, Throwable t) {
+                    Log.i(TAG, "onFailure: ORDER ACCEPT Request seems to have failed!\tt.getMessage(): " + t.getMessage());
+                    t.printStackTrace();
+
+                    if (t instanceof SocketTimeoutException) {
+                        OrderAcceptCartFragmentResponse orderAcceptResponseFailedSocketTimeout = new OrderAcceptCartFragmentResponse(applicationContext.getString(R.string.weak_internet_connection), -1, 1001);
+
+                        orderAcceptCartFragmentResponseMutableLiveData.setValue(orderAcceptResponseFailedSocketTimeout);
+                        return;
+                    }
+                    OrderAcceptCartFragmentResponse orderAcceptResponseFailed = new OrderAcceptCartFragmentResponse("Somehow Order Accept Response failed!\nPlease try again later!", -1, 1000);
+
+                    orderAcceptCartFragmentResponseMutableLiveData.setValue(orderAcceptResponseFailed);
+
+                }
+            });
+            return true;
+        }
+        return false;
+    }
     //FOR CHECKING VENDOR STATUS TO ADD PRODUCT
     public boolean checkVendorOrderAcceptance2(int productId) {
         Log.i(TAG, "checkVendorOrderAcceptance2: fired! productId: " + productId);

@@ -132,9 +132,11 @@ public class DialogUtil {
         // LONG = 0, SHORT = -1, INDEFINITE = -2
 //        Snackbar snackbar;
         if (duration == null) {
-            snackbar = Snackbar.make(anchorView, msg, Snackbar.LENGTH_LONG);
+           // snackbar = Snackbar.make(anchorView, msg, Snackbar.LENGTH_LONG);
+            snackbar = Snackbar.make(anchorView,msg, Snackbar.LENGTH_SHORT);;
         } else {
-            snackbar = Snackbar.make(anchorView, msg, duration);
+            //snackbar = Snackbar.make(anchorView, msg, duration);
+            snackbar = Snackbar.make(anchorView,msg, Snackbar.LENGTH_SHORT);;
         }
         View snackBarView = snackbar.getView();
         TextView snackBarTextView = (TextView) snackBarView.findViewById(com.google.android.material.R.id.snackbar_text);

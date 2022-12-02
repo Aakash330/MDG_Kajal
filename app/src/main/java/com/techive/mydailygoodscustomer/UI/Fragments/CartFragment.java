@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AlertDialogLayout;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -56,6 +58,7 @@ import com.techive.mydailygoodscustomer.Models.PlaceOrderModel;
 import com.techive.mydailygoodscustomer.R;
 import com.techive.mydailygoodscustomer.UI.Activities.ParentActivity;
 import com.techive.mydailygoodscustomer.UI.Activities.ProductDetailsActivity;
+
 import com.techive.mydailygoodscustomer.UI.Activities.StoreLocatorActivity;
 import com.techive.mydailygoodscustomer.Util.ApplicationData;
 import com.techive.mydailygoodscustomer.Util.CartInterface;
@@ -63,6 +66,7 @@ import com.techive.mydailygoodscustomer.Util.DeliveryAddressInterface;
 import com.techive.mydailygoodscustomer.Util.DialogUtil;
 import com.techive.mydailygoodscustomer.Util.LoginUtil;
 import com.techive.mydailygoodscustomer.Util.OnProductCartListener;
+import com.techive.mydailygoodscustomer.Util.onPaymentVerify;
 import com.techive.mydailygoodscustomer.ViewModels.CartViewModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -102,6 +106,7 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
     private CartInterface cartInterface;
 
     private CartViewModel cartViewModel;
+    private  MutableLiveData<String> activity;
 
     private DecimalFormat decimalFormat;
 
@@ -129,6 +134,14 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
         super.onCreate(savedInstanceState);
         Log.i(TAG, "onCreate: fired!");
 
+      /*  try {
+            // If you are using a fragment then you need to add this line inside onCreate() of your Fragment
+            CFPaymentGatewayService.getInstance().setCheckoutCallback(this);
+        } catch (CFException e) {
+            e.printStackTrace();
+        }*/
+
+
 //        cartViewModel = new ViewModelProvider(this).get(CartViewModel.class);
 
         //TESTING (27-9-22)
@@ -152,6 +165,7 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
                              Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView: fired!");
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_cart, container, false);
     }
 
@@ -163,6 +177,7 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
         initComponentViews(view);
 
         cartViewModel = new ViewModelProvider(this).get(CartViewModel.class);
+        activity=ParentActivity.paymentStatusMutableLiveData;
 
         Log.i(TAG, "onViewCreated: cartViewModel.getCartMutableLiveData(): " + cartViewModel.getCartMutableLiveData());
 
@@ -187,6 +202,7 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
 //            LoginUtil.redirectToLogin(requireActivity(), "Please proceed to Login/Register to view your Cart.");
 //        }
     }
+
 
     @Override
     public void onStart() {
@@ -273,7 +289,7 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
         if (cartViewModel.getSplitOrderResponseMutableLiveData().getValue() != null) {
             cartViewModel.setSplitOrderResponseMutableLiveData(null);
         }
-        if (cartViewModel.getOrderAcceptResponseMutableLiveData().getValue() != null) {
+        if (cartViewModel.getOrderAcceptCartFragmentResponseMutableLiveData().getValue() != null) {
             cartViewModel.setOrderAcceptResponseMutableLiveData(null);
         }
 
@@ -359,6 +375,7 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
         decimalFormat = new DecimalFormat("#.#");
     }
 
+
     private void initAdapters() {
         Log.i(TAG, "initAdapters: fired!");
 
@@ -392,7 +409,7 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
 //        postPaymentMutableLiveData.observe(this, postPaymentObserver);
 
         //Testing (28-9-22) - Success after increasing Cashfree SDK version.
-        ((ParentActivity) getActivity()).paymentStatusMutableLiveData.observe(getActivity(), postPaymentObserver);
+       ((ParentActivity) getActivity()).paymentStatusMutableLiveData.observe(getActivity(), postPaymentObserver);//@kajal_12_2_22 checkD
     }
 
     private void initListeners() {
@@ -490,39 +507,41 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
         @Override
         public void onChanged(GeneralResponse generalResponse) {
             Log.i(TAG, "onChanged: ADD TO CART Observer fired!\ngeneralResponse: " + generalResponse);
+   try{
+    if (generalResponse != null) {
+        if (generalResponse.getError() == 200) {
 
-            if (generalResponse != null) {
-                if (generalResponse.getError() == 200) {
-
-                    if(generalResponse.getProd_id()==null)
-                        return;
-                   /* Log.i(TAG, "onChanged: cartViewModel.toBeNotifiedProdIdQtyHashMap.get(generalResponse.getProd_id()): "
+            if(generalResponse.getProd_id()==null)
+                return;
+                    Log.i(TAG, "onChanged: cartViewModel.toBeNotifiedProdIdQtyHashMap.get(generalResponse.getProd_id()): "
                             + cartViewModel.toBeNotifiedProdIdQtyHashMap.get(Integer.parseInt(generalResponse.getProd_id())));
                     cartViewModel.cartRecyclerViewAdapter.notifyProductAddedInCart(
                             Integer.parseInt(generalResponse.getProd_id()),
                             cartViewModel.toBeNotifiedProdIdQtyHashMap.get(Integer.parseInt(generalResponse.getProd_id())),
                             true, cartViewModel.updateCartDataUponAdd(Integer.parseInt(generalResponse.getProd_id())));
-*/
-                    //UPDATE PROD ID & QTY IN APPLICATION DATA.
-                    Log.i(TAG, "onChanged: CART, BEFORE, ApplicationData.getProdIdOrderQtyHashMap().toString(): " + ApplicationData.getProdIdOrderQtyHashMap().toString());
-                    HashMap<Integer, Integer> prodIdQtyHashMap = ApplicationData.getProdIdOrderQtyHashMap();
-                    prodIdQtyHashMap.put(Integer.parseInt(generalResponse.getProd_id()),
-                            cartViewModel.toBeNotifiedProdIdQtyHashMap.get(Integer.parseInt(generalResponse.getProd_id())));
-                    ApplicationData.setProdIdOrderQtyHashMap(prodIdQtyHashMap);
-                    Log.i(TAG, "onChanged: CART, AFTER, ApplicationData.getProdIdOrderQtyHashMap().toString(): " + ApplicationData.getProdIdOrderQtyHashMap().toString());
+            //UPDATE PROD ID & QTY IN APPLICATION DATA.
+            Log.i(TAG, "onChanged: CART, BEFORE, ApplicationData.getProdIdOrderQtyHashMap().toString(): " + ApplicationData.getProdIdOrderQtyHashMap().toString());
+            HashMap<Integer, Integer> prodIdQtyHashMap = ApplicationData.getProdIdOrderQtyHashMap();
+            prodIdQtyHashMap.put(Integer.parseInt(generalResponse.getProd_id()),
+                    cartViewModel.toBeNotifiedProdIdQtyHashMap.get(Integer.parseInt(generalResponse.getProd_id())));
+            ApplicationData.setProdIdOrderQtyHashMap(prodIdQtyHashMap);
+            Log.i(TAG, "onChanged: CART, AFTER, ApplicationData.getProdIdOrderQtyHashMap().toString(): " + ApplicationData.getProdIdOrderQtyHashMap().toString());
 
-                    displayCartData(cartViewModel.getCart().getCart_data());
-                } else {
-                    Log.i(TAG, "onChanged: Something went wrong while adding product to cart from Cart!");
-                    Toast.makeText(requireActivity(), generalResponse.getMsg(), Toast.LENGTH_SHORT).show();
-                    cartViewModel.cartRecyclerViewAdapter.notifyProductAddedInCart(
-                            Integer.parseInt(generalResponse.getProd_id()),
-                            cartViewModel.toBeNotifiedProdIdQtyHashMap.get(Integer.parseInt(generalResponse.getProd_id())),
-                            false, null);
-                }
-            } else {
-                Log.i(TAG, "onChanged: 1st time observer fired!");
-            }
+            displayCartData(cartViewModel.getCart().getCart_data());
+        } else {
+            Log.i(TAG, "onChanged: Something went wrong while adding product to cart from Cart!");
+            Toast.makeText(requireActivity(), generalResponse.getMsg(), Toast.LENGTH_SHORT).show();
+            cartViewModel.cartRecyclerViewAdapter.notifyProductAddedInCart(
+                    Integer.parseInt(generalResponse.getProd_id()),
+                    cartViewModel.toBeNotifiedProdIdQtyHashMap.get(Integer.parseInt(generalResponse.getProd_id())),
+                    false, null);
+        }
+    } else {
+        Log.i(TAG, "onChanged: 1st time observer fired!");
+    }
+
+}catch (Exception ee){}
+
         }
     };
 
@@ -538,13 +557,12 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
                         if(cartViewModel.getCart().getCart_data()==null)
                             return;
                         //@kajal 11_16_22
-                   /* Log.i(TAG, "onChanged: cartViewModel.toBeNotifiedProdIdQtyHashMap.get(generalResponse.getProd_id()): "
+                    Log.i(TAG, "onChanged: cartViewModel.toBeNotifiedProdIdQtyHashMap.get(generalResponse.getProd_id()): "
                             + cartViewModel.toBeNotifiedProdIdQtyHashMap.get(Integer.parseInt(generalResponse.getProd_id())));
                     cartViewModel.cartRecyclerViewAdapter.notifyProductRemovedFromCart(
                             Integer.parseInt(generalResponse.getProd_id()),
                             cartViewModel.toBeNotifiedProdIdQtyHashMap.get(Integer.parseInt(generalResponse.getProd_id())),
                             true, cartViewModel.updateCartDataUponRemove(Integer.parseInt(generalResponse.getProd_id())));
-*/
                         displayCartData(cartViewModel.getCart().getCart_data());
                     }catch (Exception ee){
 
@@ -568,27 +586,29 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
         @Override
         public void onChanged(GeneralResponse generalResponse) {
             Log.i(TAG, "onChanged: COMPLETELY REMOVE FROM CART Observer fired!\ngeneralResponse: " + generalResponse);
+try{
+    if (generalResponse != null) {
+        if (generalResponse.getError() == 200) {
+            Log.i(TAG, "onChanged: cartViewModel.toBeNotifiedProdIdQtyHashMap.get(generalResponse.getProd_id()): "
+                    + cartViewModel.toBeNotifiedProdIdQtyHashMap.get(Integer.parseInt(generalResponse.getProd_id())));
+            cartViewModel.updateCartDataUponCompletelyRemove(Integer.parseInt(generalResponse.getProd_id()));
+            cartViewModel.cartRecyclerViewAdapter.notifyProductCompletelyRemovedFromCart();
 
-            if (generalResponse != null) {
-                if (generalResponse.getError() == 200) {
-                    Log.i(TAG, "onChanged: cartViewModel.toBeNotifiedProdIdQtyHashMap.get(generalResponse.getProd_id()): "
-                            + cartViewModel.toBeNotifiedProdIdQtyHashMap.get(Integer.parseInt(generalResponse.getProd_id())));
-                    cartViewModel.updateCartDataUponCompletelyRemove(Integer.parseInt(generalResponse.getProd_id()));
-                    cartViewModel.cartRecyclerViewAdapter.notifyProductCompletelyRemovedFromCart();
+            displayCartData(cartViewModel.getCart().getCart_data());
+        } else {
+            Log.i(TAG, "onChanged: Something went wrong while completely removing product from cart from Cart!");
+            Toast.makeText(requireActivity(), generalResponse.getMsg(), Toast.LENGTH_SHORT).show();
 
-                    displayCartData(cartViewModel.getCart().getCart_data());
-                } else {
-                    Log.i(TAG, "onChanged: Something went wrong while completely removing product from cart from Cart!");
-                    Toast.makeText(requireActivity(), generalResponse.getMsg(), Toast.LENGTH_SHORT).show();
+            cartViewModel.cartRecyclerViewAdapter.notifyProductRemovedFromCart(
+                    Integer.parseInt(generalResponse.getProd_id()),
+                    cartViewModel.toBeNotifiedProdIdQtyHashMap.get(Integer.parseInt(generalResponse.getProd_id())),
+                    false, null);
+        }
+    } else {
+        Log.i(TAG, "onChanged: 1st time observer fired!");
+    }
+}catch (Exception ee){}
 
-                    cartViewModel.cartRecyclerViewAdapter.notifyProductRemovedFromCart(
-                            Integer.parseInt(generalResponse.getProd_id()),
-                            cartViewModel.toBeNotifiedProdIdQtyHashMap.get(Integer.parseInt(generalResponse.getProd_id())),
-                            false, null);
-                }
-            } else {
-                Log.i(TAG, "onChanged: 1st time observer fired!");
-            }
         }
     };
 
@@ -606,7 +626,6 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
                         Log.i(TAG, "onChanged: Order Placed Successfully through COD!");
                         Toast.makeText(requireActivity(), "Order Placed Successfully through COD!" +
                                 "\nPlease pay the amount at the time of your Order Delivery!", Toast.LENGTH_LONG).show();
-
                         clearCart();
                         orderSuccessful(true);
                     } else {
@@ -761,11 +780,34 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
                     Log.i(TAG, "onChanged: Payment Success!");
 
                     //New API for updating order with orderId & payment bit 1.
-                    if (!cartViewModel.postPaymentNotifyMDGServer(s)) {
-                        DialogUtil.showNoInternetToast(requireActivity());
-                    } else {
-                        DialogUtil.showProcessingInfoDialog(requireActivity());
-                    }
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!cartViewModel.postPaymentNotifyMDGServer(s)) {
+                                requireActivity().runOnUiThread(() -> {
+                                    DialogUtil.showNoInternetToast(requireActivity());
+                                });
+
+                            } else {
+                                requireActivity().runOnUiThread(() -> {
+                                    DialogUtil.showProcessingInfoDialog(requireActivity());
+                                });
+
+                            } if (!cartViewModel.postPaymentNotifyMDGServer(s)) {
+                                requireActivity().runOnUiThread(()->{
+                                            DialogUtil.showNoInternetToast(requireActivity());
+                                        }
+                                        );
+
+                            } else {
+                                requireActivity().runOnUiThread(()->{
+                                    DialogUtil.showProcessingInfoDialog(requireActivity());
+                                });
+
+                            }
+                        }
+                    }).start();
+
                 } else {
                     //FAILED PAYMENT CASE
                     Toast.makeText(requireActivity(), "Payment Unsuccessful!\nOrder Not Placed!\nPlease try again later!", Toast.LENGTH_SHORT).show();
@@ -837,7 +879,7 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
                 } else if (view.getId() == placeOrderMaterialButton.getId()) {
 
                     /* NEW FLOW AS OF 22-6-22. */
-                    if (cartViewModel.checkVendorOrderAcceptance()) {
+                    if (!cartViewModel.checkVendorOrderAcceptance()) {
                         Log.w(TAG,"PlaceOrderBtn CartFragment if");
                         DialogUtil.showNoInternetToast(requireActivity());
                     } else {
@@ -928,7 +970,7 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
         Log.i(TAG, "displayCartData: cartTotalPrice: " + cartTotalPrice + "  cartTotalSavings: " + cartTotalSavings);
 
 //        totalPriceMaterialTextView.setText(requireActivity().getString(R.string.rupee_symbol) + " " + ((int) Math.ceil(cartTotalPrice + cartTotalSavings)));
-        totalPriceMaterialTextView.setText(requireActivity().getString(R.string.rupee_symbol) + " " + (decimalFormat.format(cartTotalPrice + cartTotalSavings)));
+        totalPriceMaterialTextView.setText("\\u20B9" + " " + (decimalFormat.format(cartTotalPrice + cartTotalSavings)));
         Log.i(TAG, "displayCartData: decimalFormat.format(cartTotalPrice + cartTotalSavings): " + decimalFormat.format(cartTotalPrice + cartTotalSavings));
 
         //REMOVING FREEBIE SELECTION AS SOON AS CART TOTAL PRICE GOES BELOW SELECTED FREEBIE MIN CART VALUE.
@@ -1178,6 +1220,7 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
                     .setOrderId(orderId)
 //                    .setOrderId("123456")
                     .build();
+            //success@upi
 
 //            CFTheme cfTheme = new CFTheme.CFThemeBuilder()
 //                    .setNavigationBarBackgroundColor("#6A3FD3")
@@ -1410,6 +1453,7 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
         }
     }
 
+
     @Override
     public void productClicked(int productId) {
         Log.i(TAG, "productClicked: fired! productId: " + productId);
@@ -1475,8 +1519,51 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
     @Override
     public void onPaymentVerify(String s) {
 
+
+
+    }
+
+    @Override
+    public void onPaymentFailure(CFErrorResponse cfErrorResponse, String s) {
+
+    }
+
+   /* @Override
+    public void onPaymentVerify(String s) {
+
         Log.i(TAG,"OnlinePayment Verify Try1:  Selected "+s);
-        startActivity(new Intent(getActivity(), StoreLocatorActivity.class));
+        startActivity(new Intent(getActivity(),StoreLocatorActivity.class));
+        if (s != null) {
+            if (!s.toUpperCase().matches("FAILED")) {
+                //SUCCESS PAYMENT CASE
+                Log.i(TAG, "onChanged: Payment Success!");
+
+                //New API for updating order with orderId & payment bit 1.
+                if (!cartViewModel.postPaymentNotifyMDGServer(s)) {
+                    Toast.makeText(getContext(), "PaymentSuccessful if", Toast.LENGTH_SHORT).show();
+                    new AlertDialog.Builder(getContext())
+                    .setTitle("PaymentSuccessful")
+                    .setMessage("check open dialog box in if")
+                   .setPositiveButton("OK",null)
+                   .show();
+                    // DialogUtil.showNoInternetToast(requireActivity());//@kajal11_30_22 ChangeA
+                } else {
+                    new AlertDialog.Builder(getContext())
+                            .setTitle("PaymentSuccessful")
+                            .setMessage("check open dialog box in else")
+                            .setPositiveButton("OK",null)
+                            .show();
+                    Toast.makeText(getContext(), "PaymentSuccessful else", Toast.LENGTH_SHORT).show();
+                    // DialogUtil.showProcessingInfoDialog(requireActivity());
+                }
+            } else {
+                //FAILED PAYMENT CASE
+                Toast.makeText(requireActivity(), "Payment Unsuccessful!\nOrder Not Placed!\nPlease try again later!", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Log.i(TAG, "onChanged: Null Observer fired!");
+        }
+
         Toast.makeText(getContext(), "Payment Successful", Toast.LENGTH_SHORT).show();
     }
 
@@ -1484,7 +1571,38 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
     public void onPaymentFailure(CFErrorResponse cfErrorResponse, String s) {
         Log.i(TAG,"OnlinePayment Failed Try1:  Selected "+s);
         Toast.makeText(getContext(), "Payment Failed", Toast.LENGTH_SHORT).show();
-    }
+    }//--------------------------------------------------------------------------------
+   *//* public static int toCheckCallBackValue =0;
+
+    public void orderExecute()
+    {
+        Log.i(TAG,"OnlinePayment sucecess Try1:  Selected ");
+        placeOrder();
+        toCheckCallBackValue=0;
+    }*//*
+*/
+   /* @Override
+    public void PaymentSuccessful(String s) {
+        if (s != null) {
+            if (!s.toUpperCase().matches("FAILED")) {
+                //SUCCESS PAYMENT CASE
+                Log.i(TAG, "onChanged: Payment Success!");
+
+                //New API for updating order with orderId & payment bit 1.
+                if (!cartViewModel.postPaymentNotifyMDGServer(s)) {
+                    DialogUtil.showNoInternetToast(requireActivity());
+                } else {
+                    DialogUtil.showProcessingInfoDialog(getContext());
+                }
+            } else {
+                //FAILED PAYMENT CASE
+                Toast.makeText(requireActivity(), "Payment Unsuccessful!\nOrder Not Placed!\nPlease try again later!", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Log.i(TAG, "onChanged: Null Observer fired!");
+        }
+    }*/
+
 
     //CASHFREE PAYMENT GATEWAY CALLBACK
 //    @Override

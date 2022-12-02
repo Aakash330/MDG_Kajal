@@ -19,7 +19,6 @@ public class SharedPreferencesManager {
     public SharedPreferencesManager(Context context) {
         this.context = context;
     }
-
     public SharedPreferences getBuyerSharedPreferences() {
         return context.getSharedPreferences("BUYER_PREF", Context.MODE_PRIVATE);
     }

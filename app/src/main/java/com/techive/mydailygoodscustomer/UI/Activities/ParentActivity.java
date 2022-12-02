@@ -18,9 +18,12 @@ import com.cashfree.pg.core.api.utils.CFErrorResponse;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.techive.mydailygoodscustomer.R;
+import com.techive.mydailygoodscustomer.UI.Fragments.CartFragment;
 import com.techive.mydailygoodscustomer.UI.Fragments.HomeFragment;
 import com.techive.mydailygoodscustomer.Util.ApplicationData;
 import com.techive.mydailygoodscustomer.Util.CartInterface;
+import com.techive.mydailygoodscustomer.Util.onPaymentVerify;
+import com.techive.mydailygoodscustomer.ViewModels.CartViewModel;
 
 public class ParentActivity extends AppCompatActivity implements CartInterface, CFCheckoutResponseCallback {
     private static final String TAG = "ParentActivity";
@@ -31,8 +34,10 @@ public class ParentActivity extends AppCompatActivity implements CartInterface, 
 
     private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
     private long mBackPressed;
+    private CartViewModel cartViewModel;
+    CartFragment fragment;
 
-    public MutableLiveData<String> paymentStatusMutableLiveData;
+    public static MutableLiveData<String> paymentStatusMutableLiveData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +47,15 @@ public class ParentActivity extends AppCompatActivity implements CartInterface, 
         Log.i(TAG, "onCreate: fired!");
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        fragment =new CartFragment();
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.navHostFragmentContainerView);
         /*NavController */
         navController = navHostFragment.getNavController();
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
-    /*    bottomNavigationView.setOnItemReselectedListener((BottomNavigationView.OnNavigationItemReselectedListener)
+        bottomNavigationView.setOnItemReselectedListener((BottomNavigationView.OnNavigationItemReselectedListener)
                 item -> navController.popBackStack(item.getItemId(), false)
-        );*/
+        );
 
         //Testing (28-9-22)
         if (paymentStatusMutableLiveData == null) {
@@ -168,7 +174,6 @@ public class ParentActivity extends AppCompatActivity implements CartInterface, 
 
     public void openHomeFragment() {
         Log.i(TAG, "openHomeFragment: fired!");
-
         navController.navigate(R.id.home);
     }
 
@@ -178,30 +183,38 @@ public class ParentActivity extends AppCompatActivity implements CartInterface, 
 
         BadgeDrawable badgeDrawable = bottomNavigationView.getOrCreateBadge(R.id.cart);
         if (qty == 0) {
+            Log.i(TAG,"showBadgeOnCart if");
             badgeDrawable.setVisible(false);
             badgeDrawable.clearNumber();
         } else {
+            Log.i(TAG,"showBadgeOnCart else");
             badgeDrawable.setVisible(true);
             badgeDrawable.setNumber(qty);
         }
     }
 
-
+///-----------------------
     @Override
     public void onPaymentVerify(String s) {
-        try{
-            Log.i(TAG, "onPaymentVerify: Inside Parent Activity! orderId" + s);
-            paymentStatusMutableLiveData.postValue(s);
-        }catch (Exception ee){}
+        try {
+            Log.i(TAG, "onPaymentVerify: Inside Parent Activity! orderId " + s);
+            Log.w(TAG, "onPaymentVerify");
 
-    }
+           /* onPaymentVerify placedSuccessful = null;
+            placedSuccessful.PaymentSuccessful(s);*/
+         //   paymentStatusMutableLiveData.postValue(s);
+           // getSupportFragmentManager().beginTransaction().add(R.id.navHostFragmentContainerView,fragment).commit();
+
+        }catch (Exception ee){
+
+        }}
 
     @Override
     public void onPaymentFailure(CFErrorResponse cfErrorResponse, String s) {
 
         try{
             Log.i(TAG, "onPaymentFailure: Inside Parent Activity! fired! cfErrorResponse.toJSON().toString(): " + cfErrorResponse.toJSON().toString() + "\ts: " + s);
-
+            Log.w(TAG, "onPaymentVerify"+cfErrorResponse.getMessage());
             paymentStatusMutableLiveData.postValue("Failed");
         }catch (Exception ee){
 

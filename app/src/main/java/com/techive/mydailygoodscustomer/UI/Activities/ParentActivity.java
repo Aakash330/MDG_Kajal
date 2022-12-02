@@ -35,7 +35,6 @@ public class ParentActivity extends AppCompatActivity implements CartInterface, 
     private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
     private long mBackPressed;
     private CartViewModel cartViewModel;
-    CartFragment fragment;
 
     public static MutableLiveData<String> paymentStatusMutableLiveData;
 
@@ -47,7 +46,7 @@ public class ParentActivity extends AppCompatActivity implements CartInterface, 
         Log.i(TAG, "onCreate: fired!");
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
-        fragment =new CartFragment();
+
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.navHostFragmentContainerView);
         /*NavController */
@@ -73,6 +72,7 @@ public class ParentActivity extends AppCompatActivity implements CartInterface, 
             e.printStackTrace();
         }
     }
+
 
     @Override
     protected void onStart() {
@@ -200,10 +200,9 @@ public class ParentActivity extends AppCompatActivity implements CartInterface, 
             Log.i(TAG, "onPaymentVerify: Inside Parent Activity! orderId " + s);
             Log.w(TAG, "onPaymentVerify");
 
-           /* onPaymentVerify placedSuccessful = null;
-            placedSuccessful.PaymentSuccessful(s);*/
-         //   paymentStatusMutableLiveData.postValue(s);
-           // getSupportFragmentManager().beginTransaction().add(R.id.navHostFragmentContainerView,fragment).commit();
+
+            paymentStatusMutableLiveData.postValue(s);
+
 
         }catch (Exception ee){
 
@@ -222,4 +221,5 @@ public class ParentActivity extends AppCompatActivity implements CartInterface, 
         }
 
     }
+
 }

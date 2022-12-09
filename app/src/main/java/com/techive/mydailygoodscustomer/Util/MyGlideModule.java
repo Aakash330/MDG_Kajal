@@ -18,6 +18,7 @@ import java.io.InputStream;
 
 import javax.net.ssl.SSLSocketFactory;
 
+import okhttp3.Call;
 import okhttp3.OkHttpClient;
 
 @GlideModule
@@ -40,6 +41,6 @@ public class MyGlideModule extends AppGlideModule {
                     .build();
         }
 
-        registry.replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(okHttpClient));
+        registry.replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory((Call.Factory) okHttpClient));
     }
 }

@@ -62,8 +62,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         //= PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, 0);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            pendingIntent = PendingIntent.getActivity(this,
-                    0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+            pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         } else {
             pendingIntent = PendingIntent.getActivity(this,
                     0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);

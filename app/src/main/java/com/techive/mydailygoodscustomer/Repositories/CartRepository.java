@@ -623,8 +623,10 @@ public class CartRepository {
         if (!NetworkUtil.networkConnectivityStatus(applicationContext).equals("No Internet Available!")) {
             Log.i(TAG, "createCashFreeOrder: Network Available!");
 
+       /*     Call<CashFreeOrder> cashFreeOrderCall = ApplicationData.mdg_customerAPI_interface.createCashFreeOrder(
+                    ApplicationData.getLoggedInBuyerId(), orderAmount*//*, uniqueOrderId*//*); */
             Call<CashFreeOrder> cashFreeOrderCall = ApplicationData.mdg_customerAPI_interface.createCashFreeOrder(
-                    ApplicationData.getLoggedInBuyerId(), orderAmount/*, uniqueOrderId*/);
+                    1132, orderAmount/*, uniqueOrderId*/);
             cashFreeOrderCall.enqueue(new Callback<CashFreeOrder>() {
                 @Override
                 public void onResponse(Call<CashFreeOrder> call, Response<CashFreeOrder> response) {
@@ -665,8 +667,11 @@ public class CartRepository {
         if (!NetworkUtil.networkConnectivityStatus(applicationContext).equals("No Internet Available!")) {
             Log.i(TAG, "postPaymentNotifyMDGServer: Network Available!");
 
+            /*Call<SplitOrderResponse> postPaymentNotifyCall = ApplicationData.mdg_customerAPI_interface.postPaymentNotify(
+                    ApplicationData.getDefaultStoreId(), orderId, ApplicationData.getLoggedInBuyerId());*/
+            //Testing12_6_22 @kajal
             Call<SplitOrderResponse> postPaymentNotifyCall = ApplicationData.mdg_customerAPI_interface.postPaymentNotify(
-                    ApplicationData.getDefaultStoreId(), orderId, ApplicationData.getLoggedInBuyerId());
+                    ApplicationData.getDefaultStoreId(), orderId, 1132);
             postPaymentNotifyCall.enqueue(new Callback<SplitOrderResponse>() {
                 @Override
                 public void onResponse(Call<SplitOrderResponse> call, Response<SplitOrderResponse> response) {
@@ -751,8 +756,11 @@ public class CartRepository {
         if (!NetworkUtil.networkConnectivityStatus(applicationContext).equals("No Internet Available!")) {
             Log.i(TAG, "checkVendorOrderAcceptance: Network Available!");
 
+         /*   Call<OrderAcceptCartFragmentResponse> orderAcceptResponseCall = ApplicationData.mdg_customerAPI_interface.
+                    checkVendorOrderCartAcceptance(ApplicationData.getDefaultStoreId(), ApplicationData.getLoggedInBuyerId());*/
+            //Testing @kajal12_9_22
             Call<OrderAcceptCartFragmentResponse> orderAcceptResponseCall = ApplicationData.mdg_customerAPI_interface.
-                    checkVendorOrderCartAcceptance(ApplicationData.getDefaultStoreId(), ApplicationData.getLoggedInBuyerId());
+                    checkVendorOrderCartAcceptance(1130,1132);
             orderAcceptResponseCall.enqueue(new Callback<OrderAcceptCartFragmentResponse>() {
                 @Override
                 public void onResponse(Call<OrderAcceptCartFragmentResponse> call, Response<OrderAcceptCartFragmentResponse> response) {

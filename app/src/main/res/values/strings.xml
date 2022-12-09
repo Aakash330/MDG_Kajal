@@ -178,9 +178,9 @@
     <string name="product_review">Product Review <font color="red">*</font></string>
 
     <!--GENERAL-->
-<!--    <string name="weak_internet_connection">Weak Internet Connection! Request Failed!\nPlease try again later!</string>-->
+    <!--    <string name="weak_internet_connection">Weak Internet Connection! Request Failed!\nPlease try again later!</string>-->
     <string name="weak_internet_connection">Connection Timeout Error!\nPlease try again now or sometime later!</string>
     <string name="connection_timed_out">Connection Timeout Error!\nPlease try again now or sometime later!</string>
     <!--GENERAL - END-->
-
+    <integer name="cashfree_pg_logging_level">5</integer>
 </resources>

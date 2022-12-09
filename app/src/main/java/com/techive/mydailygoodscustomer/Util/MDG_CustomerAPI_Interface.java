@@ -124,7 +124,8 @@ public interface MDG_CustomerAPI_Interface {
     @POST("buyer-place-order")
     Call<GeneralResponse> placeOrder(@Body PlaceOrderModel placeOrderModel);
 
-    @POST("buyer-create-order")
+   @POST("buyer-create-order")
+   // @POST("buyer-create-order-test")
     Call<CashFreeOrder> createCashFreeOrder(@Query("buy_id") int buyerId,
                                             @Query("amount") float amount/*,
                                             @Query("orderId") String orderId*/);

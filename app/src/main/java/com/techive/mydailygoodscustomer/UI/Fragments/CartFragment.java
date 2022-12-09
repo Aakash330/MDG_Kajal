@@ -68,6 +68,7 @@ import com.techive.mydailygoodscustomer.Util.LoginUtil;
 import com.techive.mydailygoodscustomer.Util.OnProductCartListener;
 import com.techive.mydailygoodscustomer.Util.onPaymentVerify;
 import com.techive.mydailygoodscustomer.ViewModels.CartViewModel;
+import com.techive.mydailygoodscustomer.cashfreeupdatestesting.CashFreeInitializationTestingActivity;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -106,7 +107,7 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
     private CartInterface cartInterface;
 
     private CartViewModel cartViewModel;
-    private  MutableLiveData<String> activity;
+
 
     private DecimalFormat decimalFormat;
 
@@ -177,7 +178,7 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
         initComponentViews(view);
 
         cartViewModel = new ViewModelProvider(this).get(CartViewModel.class);
-        activity=ParentActivity.paymentStatusMutableLiveData;
+
 
         Log.i(TAG, "onViewCreated: cartViewModel.getCartMutableLiveData(): " + cartViewModel.getCartMutableLiveData());
 
@@ -300,6 +301,7 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
         if (((ParentActivity) requireActivity()).paymentStatusMutableLiveData.getValue() != null) {
             ((ParentActivity) getActivity()).paymentStatusMutableLiveData.setValue(null);
         }
+
     }
 
     @Override
@@ -410,6 +412,7 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
 
         //Testing (28-9-22) - Success after increasing Cashfree SDK version.
        ((ParentActivity) getActivity()).paymentStatusMutableLiveData.observe(getActivity(), postPaymentObserver);//@kajal_12_2_22 checkD
+
     }
 
     private void initListeners() {
@@ -660,6 +663,9 @@ try{
 
                         cartViewModel.cashfreeOrderId = cashFreeOrder.getOrder_id();
                         cartViewModel.cashfreeOrderToken = cashFreeOrder.getOrder_token();
+                        Log.i(TAG, "onChanged: id"+cashFreeOrder.getOrder_id());
+                        Log.i(TAG, "onChanged: token"+ cashFreeOrder.getOrder_token());
+
 
                         //NEW FLOW (AS OF 27-5-22)
                         placeOrder();
@@ -674,6 +680,8 @@ try{
                     Toast.makeText(requireActivity(), "Exception in creating order!", Toast.LENGTH_SHORT).show();
                 }
             } else {
+               // DialogUtil.dismissProcessingInfoDialog();
+              //  Toast.makeText(getContext(), "null...", Toast.LENGTH_SHORT).show();
                 Log.i(TAG, "onChanged: 1st time Observer fired!");
             }
         }
@@ -793,17 +801,6 @@ try{
                                     DialogUtil.showProcessingInfoDialog(requireActivity());
                                 });
 
-                            } if (!cartViewModel.postPaymentNotifyMDGServer(s)) {
-                                requireActivity().runOnUiThread(()->{
-                                            DialogUtil.showNoInternetToast(requireActivity());
-                                        }
-                                        );
-
-                            } else {
-                                requireActivity().runOnUiThread(()->{
-                                    DialogUtil.showProcessingInfoDialog(requireActivity());
-                                });
-
                             }
                         }
                     }).start();
@@ -817,7 +814,6 @@ try{
             }
         }
     };
-
 
     private final SwipeRefreshLayout.OnRefreshListener onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
         @Override
@@ -877,6 +873,7 @@ try{
                     ApplicationData.setDeliveryAddressListDialogFragment(deliveryAddressListDialogFragment);
 
                 } else if (view.getId() == placeOrderMaterialButton.getId()) {
+
 
                     /* NEW FLOW AS OF 22-6-22. */
                     if (!cartViewModel.checkVendorOrderAcceptance()) {
@@ -970,7 +967,7 @@ try{
         Log.i(TAG, "displayCartData: cartTotalPrice: " + cartTotalPrice + "  cartTotalSavings: " + cartTotalSavings);
 
 //        totalPriceMaterialTextView.setText(requireActivity().getString(R.string.rupee_symbol) + " " + ((int) Math.ceil(cartTotalPrice + cartTotalSavings)));
-        totalPriceMaterialTextView.setText("\\u20B9" + " " + (decimalFormat.format(cartTotalPrice + cartTotalSavings)));
+        totalPriceMaterialTextView.setText("\u20B9" + " " + (decimalFormat.format(cartTotalPrice + cartTotalSavings)));
         Log.i(TAG, "displayCartData: decimalFormat.format(cartTotalPrice + cartTotalSavings): " + decimalFormat.format(cartTotalPrice + cartTotalSavings));
 
         //REMOVING FREEBIE SELECTION AS SOON AS CART TOTAL PRICE GOES BELOW SELECTED FREEBIE MIN CART VALUE.
@@ -1019,7 +1016,8 @@ try{
         Log.i(TAG, "displayCartData: Math.ceil(cartTotalSavings): " + Math.ceil(cartTotalSavings));
 
 //        savedPriceMaterialTextView.setText(requireActivity().getString(R.string.rupee_symbol) + " " + ((int) Math.ceil(cartTotalSavings)));
-        savedPriceMaterialTextView.setText(requireActivity().getString(R.string.rupee_symbol) + " " + (decimalFormat.format(cartTotalSavings)));
+       // savedPriceMaterialTextView.setText(requireActivity().getString(R.string.rupee_symbol) + " " + (decimalFormat.format(cartTotalSavings)));//@kajal12_9_22
+        savedPriceMaterialTextView.setText("\u20B9"+ " " + (decimalFormat.format(cartTotalSavings)));
         Log.i(TAG, "displayCartData: decimalFormat.format(cartTotalSavings): " + decimalFormat.format(cartTotalSavings));
 
         //Repeated check for shipping data null. Merged in one
@@ -1064,7 +1062,8 @@ try{
             Log.i(TAG, "displayCartData: flatShippingCost: " + flatShippingCost);
 
             if (!selfPickupAllowedMaterialCheckBox.isChecked()) {
-                flatShippingCostMaterialTextView.setText(requireActivity().getString(R.string.rupee_symbol) + " " + decimalFormat.format(flatShippingCost));
+                //flatShippingCostMaterialTextView.setText(requireActivity().getString(R.string.rupee_symbol) + " " + decimalFormat.format(flatShippingCost));
+                flatShippingCostMaterialTextView.setText("\u20B9" + " " + decimalFormat.format(flatShippingCost));
             }
 
             if (cart_cartData.getShipping_data().getHomedeliver() == 1) {
@@ -1114,13 +1113,13 @@ try{
             } else {
                 /* DISAPPEAR DELIVERY ADDRESS SECTION. NO ADD OR EDIT ALLOWED. */
                 deliveryAddressLinearLayoutCompat.setVisibility(View.GONE);
-                customerDeliveryAddressMaterialTextView.setText("No Home Delivery Service available currently. You could pickup your order from above mentioned shop address.");
+                customerDeliveryAddressMaterialTextView.setText("No Home Delivery ServiceTesting available currently. You could pickup your order from above mentioned shop address.");
             }
         }
         //Shipping data is never null.
         /*else {
             deliveryAddressLinearLayoutCompat.setVisibility(View.GONE);
-            customerDeliveryAddressMaterialTextView.setText("No Home Delivery Service available currently. You could pickup your order from above mentioned shop address.");
+            customerDeliveryAddressMaterialTextView.setText("No Home Delivery ServiceTesting available currently. You could pickup your order from above mentioned shop address.");
 
         }*/
 
@@ -1215,8 +1214,9 @@ try{
             CFSession cfSession = new CFSession.CFSessionBuilder()
 //                    .setEnvironment(CFSession.Environment.SANDBOX)
                     .setEnvironment(CFSession.Environment.PRODUCTION)
-                    .setOrderToken(orderToken)
+                   .setOrderToken(orderToken)
 //                    .setOrderToken("VQwl3LAMjdKcnFvgmYX9")
+//                  .setPaymentSessionID(orderToken)
                     .setOrderId(orderId)
 //                    .setOrderId("123456")
                     .build();

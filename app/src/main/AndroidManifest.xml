@@ -8,9 +8,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <queries>
@@ -33,6 +34,12 @@
         android:roundIcon="@mipmap/ic_mdg_customer_red_launcher_2_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyDailyGoodsCustomer">
+        <activity
+            android:name=".cashfreeupdatestesting.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".cashfreeupdatestesting.CashFreeInitializationTestingActivity"
+            android:exported="false" />
         <activity
             android:name=".UI.Activities.ProductDetailsActivity"
             android:screenOrientation="portrait" />

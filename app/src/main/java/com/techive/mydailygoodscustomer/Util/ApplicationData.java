@@ -39,6 +39,7 @@ public class ApplicationData {
 
     private static HashMap<Integer, Integer> prodIdOrderQtyHashMap = new HashMap<>();
 
+
     public static void initializeRetrofit(Context applicationContext) {
         Log.i(TAG, "initializeRetrofit: fired!");
 
@@ -46,7 +47,6 @@ public class ApplicationData {
             Log.i(TAG, "initializeRetrofit: MDG Interface was null. Initializing now...");
 
             String BASE_URL = "https://www.mydailygoods.com/api/";
-
             CertificateClassOS6 certificateClassOS6 = new CertificateClassOS6();
             SSLSocketFactory sslSocketFactory = certificateClassOS6.getSslSocketFactory(applicationContext);
             Log.i(TAG, "initializeRetrofit: sslSocketFactory.toString(): " + sslSocketFactory.toString());

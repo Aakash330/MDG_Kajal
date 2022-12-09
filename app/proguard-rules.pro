@@ -53,6 +53,8 @@
 # and replaces all potential values with null. Explicitly keeping the interfaces prevents this.
 -if interface * { @retrofit2.http.* <methods>; }
 -keep,allowobfuscation interface <1>
+-keep class  com.studybuddy.pc.brainmate.model.*
+
 
 # Keep generic signature of Call, Response (R8 full mode strips signatures from non-kept items).
 -keep,allowobfuscation,allowshrinking interface retrofit2.Call
@@ -96,3 +98,5 @@
 -keep class com.techive.mydailygoodscustomer.Models.** { *; }
 -keep class com.techive.mydailygoodscustomer.Models.APIResponse.** { *; }
 ####################### For Model & Entity Classes - END ############
+#-keep class com.google.gson.** { *; }
+

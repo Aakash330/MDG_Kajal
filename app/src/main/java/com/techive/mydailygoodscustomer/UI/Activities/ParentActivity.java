@@ -12,9 +12,13 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.cashfree.pg.api.CFPaymentGatewayService;
+import com.cashfree.pg.core.api.CFSession;
+import com.cashfree.pg.core.api.CFTheme;
 import com.cashfree.pg.core.api.callback.CFCheckoutResponseCallback;
 import com.cashfree.pg.core.api.exception.CFException;
+import com.cashfree.pg.core.api.exception.CFInvalidArgumentException;
 import com.cashfree.pg.core.api.utils.CFErrorResponse;
+import com.cashfree.pg.ui.api.CFDropCheckoutPayment;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.techive.mydailygoodscustomer.R;
@@ -34,7 +38,6 @@ public class ParentActivity extends AppCompatActivity implements CartInterface, 
 
     private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
     private long mBackPressed;
-    private CartViewModel cartViewModel;
 
     public static MutableLiveData<String> paymentStatusMutableLiveData;
 
@@ -71,6 +74,7 @@ public class ParentActivity extends AppCompatActivity implements CartInterface, 
         } catch (CFException e) {
             e.printStackTrace();
         }
+
     }
 
 
@@ -200,9 +204,8 @@ public class ParentActivity extends AppCompatActivity implements CartInterface, 
             Log.i(TAG, "onPaymentVerify: Inside Parent Activity! orderId " + s);
             Log.w(TAG, "onPaymentVerify");
 
-
             paymentStatusMutableLiveData.postValue(s);
-
+          //  navController.navigate(R.id.cart);
 
         }catch (Exception ee){
 
@@ -213,7 +216,7 @@ public class ParentActivity extends AppCompatActivity implements CartInterface, 
 
         try{
             Log.i(TAG, "onPaymentFailure: Inside Parent Activity! fired! cfErrorResponse.toJSON().toString(): " + cfErrorResponse.toJSON().toString() + "\ts: " + s);
-            Log.w(TAG, "onPaymentVerify"+cfErrorResponse.getMessage());
+            Log.w(TAG, "onPaymentVerify Error="+cfErrorResponse.getMessage()+"; code: "+cfErrorResponse.getCode());
             paymentStatusMutableLiveData.postValue("Failed");
         }catch (Exception ee){
 

@@ -99,6 +99,18 @@ public class OrderHistory_Data {
     @SerializedName("order_status")
     private String order_status;
 
+    public String getRefund_status() {
+        return refund_status;
+    }
+
+    public void setRefund_status(String refund_status) {
+        this.refund_status = refund_status;
+    }
+
+    @SerializedName("refund_status")
+    private String refund_status;
+
+
     @SerializedName("online_payment")
     private String online_payment;
 
@@ -377,6 +389,7 @@ public class OrderHistory_Data {
                 ", self_pickup=" + self_pickup +
                 ", buy_addressId='" + buy_addressId + '\'' +
                 ", order_status='" + order_status + '\'' +
+                ", refund_status='" +refund_status + '\'' +
                 ", online_payment='" + online_payment + '\'' +
                 ", status='" + status + '\'' +
                 ", message='" + message + '\'' +

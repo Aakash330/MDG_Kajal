@@ -1,5 +1,6 @@
 package com.techive.mydailygoodscustomer.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -65,8 +66,12 @@ public class OrderHistoryRecyclerViewAdapter extends RecyclerView.Adapter<OrderH
         this.orderHistoryClickListener = orderHistoryClickListener;
     }
 
+    @SuppressLint("SetTextI18n")
     private void displayOrderHistoryData(OrderHistoryRecyclerViewAdapter.OrderHistoryViewHolder holder, int position) {
-        Log.i(TAG, "displayOrderHistoryData: fired!");
+        OrderHistory_Data history_data= orderHistory_dataList.get(position);
+        Log.w("ggg","refund status"+history_data.getRefund_status());
+
+                Log.i(TAG, "displayOrderHistoryData: fired!");
 
         Glide.with(context)
                 .load(orderHistory_dataList.get(position).getImagepath() + orderHistory_dataList.get(position).getImage())
@@ -82,10 +87,10 @@ public class OrderHistoryRecyclerViewAdapter extends RecyclerView.Adapter<OrderH
             if (orderHistory_dataList.get(position).getBuyerAddress().getFirstname() != null) {
                 deliveryAddressStringBuilder.append(orderHistory_dataList.get(position).getBuyerAddress().getFirstname()).append(" ");
             }
-            if (orderHistory_dataList.get(position).getBuyerAddress().getLastname() != null) {
+            if(orderHistory_dataList.get(position).getBuyerAddress().getLastname() != null) {
                 deliveryAddressStringBuilder.append(orderHistory_dataList.get(position).getBuyerAddress().getLastname());
             }
-            if (orderHistory_dataList.get(position).getBuyerAddress().getMobile() != null) {
+            if(orderHistory_dataList.get(position).getBuyerAddress().getMobile() != null) {
                 deliveryAddressStringBuilder.append("\n").append(orderHistory_dataList.get(position).getBuyerAddress().getMobile());
             }
             if (orderHistory_dataList.get(position).getBuyerAddress().getAddress() != null) {
@@ -117,6 +122,16 @@ public class OrderHistoryRecyclerViewAdapter extends RecyclerView.Adapter<OrderH
             holder.orderDeliveryAddressMaterialTextView.setText("Delivery Address:\n" + deliveryAddressStringBuilder.toString());
         } else {
             holder.orderDeliveryAddressMaterialTextView.setText("Delivery Address: NA");
+        }
+        ///@kajal
+        if(orderHistory_dataList.get(position).getRefund_status().equals("1")){
+            holder.orderRefundStatusMaterialTextView.setVisibility(View.VISIBLE);
+            holder.orderRefundStatusMaterialTextView.setText("Payment Initiated");
+
+        } else if(orderHistory_dataList.get(position).getRefund_status().equals("2")){
+            holder.orderRefundStatusMaterialTextView.setVisibility(View.VISIBLE);
+            holder.orderRefundStatusMaterialTextView.setText("Payment Settled");
+
         }
 
         holder.orderQtyMaterialTextView.setText("No. of Items: " + orderHistory_dataList.get(position).getQuantity());
@@ -224,7 +239,7 @@ public class OrderHistoryRecyclerViewAdapter extends RecyclerView.Adapter<OrderH
 
         MaterialTextView orderInvoiceIdMaterialTextView, orderDateMaterialTextView, orderDeliveryAddressMaterialTextView,
                 orderStatusMaterialTextView, orderPaymentMaterialTextView, orderDeliveryMaterialTextView,
-                orderedFromMaterialTextView, orderQtyMaterialTextView, orderGrossTotalMaterialTextView;
+                orderedFromMaterialTextView, orderQtyMaterialTextView, orderGrossTotalMaterialTextView,orderRefundStatusMaterialTextView;
 
         AppCompatImageView orderItemMainAppCompatImageView;
 
@@ -241,6 +256,7 @@ public class OrderHistoryRecyclerViewAdapter extends RecyclerView.Adapter<OrderH
             orderStatusMaterialTextView = itemView.findViewById(R.id.orderStatusMaterialTextView);
             orderPaymentMaterialTextView = itemView.findViewById(R.id.orderPaymentMaterialTextView);
             orderDeliveryMaterialTextView = itemView.findViewById(R.id.orderDeliveryMaterialTextView);
+            orderRefundStatusMaterialTextView = itemView.findViewById(R.id.orderRefundStatusMaterialTextView);
             orderedFromMaterialTextView = itemView.findViewById(R.id.orderedFromMaterialTextView);
             orderQtyMaterialTextView = itemView.findViewById(R.id.orderQtyMaterialTextView);
             orderGrossTotalMaterialTextView = itemView.findViewById(R.id.orderGrossTotalMaterialTextView);

@@ -99,6 +99,7 @@ public class RecentlyAddedRecyclerViewAdapter extends RecyclerView.Adapter<Recen
 
         if (prodIdOrderQtyHashMap.containsKey(productsModel_dataList.get(position).getId())) {
             holder.toggleButtonsVisibility(false/*, true, true, true*/);
+            Log.w("qtyhdsfgh","number :"+String.valueOf(prodIdOrderQtyHashMap.get(productsModel_dataList.get(position).getId())));
             holder.prodQtyMaterialTextView.setText(String.valueOf(prodIdOrderQtyHashMap.get(productsModel_dataList.get(position).getId())));
         } else {
             holder.toggleButtonsVisibility(true/*, false, false, false*/);
@@ -251,7 +252,6 @@ public class RecentlyAddedRecyclerViewAdapter extends RecyclerView.Adapter<Recen
                 Log.i(TAG, "onClick: Some view Clicked!");
 
                 if (view.getId() == productMaterialCardView.getId()) {
-
                     onProductCartListener.productClicked(productsModel_dataList.get(getAdapterPosition()).getId());
                 } else if (view.getId() == cartMaterialButton.getId()) {
 
@@ -270,7 +270,6 @@ public class RecentlyAddedRecyclerViewAdapter extends RecyclerView.Adapter<Recen
                     incrementMaterialButton.setEnabled(false);
                     decrementMaterialButton.setEnabled(false);
                     prodIdLoadingHashMap.put(productsModel_dataList.get(getAdapterPosition()).getId(), true);
-
                     onProductCartListener.removeProductFromCart(productsModel_dataList.get(getAdapterPosition()).getId(), --currentQty);
                 }
             }

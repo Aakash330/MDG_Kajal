@@ -67,19 +67,19 @@
             android:id="@+id/orderPaymentMaterialTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Order Payment: " />
+            android:text="@string/order_payment" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/orderDeliveryMaterialTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Order Delivery: " />
+            android:text="@string/order_delivery" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/orderedFromMaterialTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ordered From: "
+            android:text="@string/ordered_from"
             android:textStyle="italic"/>
 
         <com.google.android.material.divider.MaterialDivider
@@ -88,10 +88,17 @@
             android:layout_marginVertical="7dp" />
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/orderRefundStatusMaterialTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="@string/refund_status" />
+
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/orderDeliveryAddressMaterialTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Delivery Address" />
+            android:text="@string/delivery_address" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -111,7 +118,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="No. of Items: "
+                android:text="@string/no_of_items"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.3"
                 app:layout_constraintStart_toEndOf="@+id/orderItemMainAppCompatImageView"
@@ -122,7 +129,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="Gross Total: "
+                android:text="@string/gross_total"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

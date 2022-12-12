@@ -525,8 +525,7 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
             //UPDATE PROD ID & QTY IN APPLICATION DATA.
             Log.i(TAG, "onChanged: CART, BEFORE, ApplicationData.getProdIdOrderQtyHashMap().toString(): " + ApplicationData.getProdIdOrderQtyHashMap().toString());
             HashMap<Integer, Integer> prodIdQtyHashMap = ApplicationData.getProdIdOrderQtyHashMap();
-            prodIdQtyHashMap.put(Integer.parseInt(generalResponse.getProd_id()),
-                    cartViewModel.toBeNotifiedProdIdQtyHashMap.get(Integer.parseInt(generalResponse.getProd_id())));
+           prodIdQtyHashMap.put(Integer.parseInt(generalResponse.getProd_id()),cartViewModel.toBeNotifiedProdIdQtyHashMap.get(Integer.parseInt(generalResponse.getProd_id())));
             ApplicationData.setProdIdOrderQtyHashMap(prodIdQtyHashMap);
             Log.i(TAG, "onChanged: CART, AFTER, ApplicationData.getProdIdOrderQtyHashMap().toString(): " + ApplicationData.getProdIdOrderQtyHashMap().toString());
 
@@ -552,36 +551,40 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
         @Override
         public void onChanged(GeneralResponse generalResponse) {
             Log.i(TAG, "onChanged: REMOVE FROM CART Observer fired!\ngeneralResponse: " + generalResponse);
+   try{
+    if (generalResponse != null) {
+        if (generalResponse.getError() == 200) {
 
-            if (generalResponse != null) {
-                if (generalResponse.getError() == 200) {
+            try{
+                if(cartViewModel.getCart().getCart_data()==null)
+                    return;
+                //@kajal 11_16_22
+                Log.i(TAG, "onChanged: cartViewModel.toBeNotifiedProdIdQtyHashMap.get(generalResponse.getProd_id()): "
+                        + cartViewModel.toBeNotifiedProdIdQtyHashMap.get(Integer.parseInt(generalResponse.getProd_id())));
+                cartViewModel.cartRecyclerViewAdapter.notifyProductRemovedFromCart(
+                        Integer.parseInt(generalResponse.getProd_id()),
+                        cartViewModel.toBeNotifiedProdIdQtyHashMap.get(Integer.parseInt(generalResponse.getProd_id())),
+                        true, cartViewModel.updateCartDataUponRemove(Integer.parseInt(generalResponse.getProd_id())));
+                displayCartData(cartViewModel.getCart().getCart_data());
+            }catch (Exception ee){
 
-                    try{
-                        if(cartViewModel.getCart().getCart_data()==null)
-                            return;
-                        //@kajal 11_16_22
-                    Log.i(TAG, "onChanged: cartViewModel.toBeNotifiedProdIdQtyHashMap.get(generalResponse.getProd_id()): "
-                            + cartViewModel.toBeNotifiedProdIdQtyHashMap.get(Integer.parseInt(generalResponse.getProd_id())));
-                    cartViewModel.cartRecyclerViewAdapter.notifyProductRemovedFromCart(
-                            Integer.parseInt(generalResponse.getProd_id()),
-                            cartViewModel.toBeNotifiedProdIdQtyHashMap.get(Integer.parseInt(generalResponse.getProd_id())),
-                            true, cartViewModel.updateCartDataUponRemove(Integer.parseInt(generalResponse.getProd_id())));
-                        displayCartData(cartViewModel.getCart().getCart_data());
-                    }catch (Exception ee){
-
-                    }
-
-                } else {
-                    Log.i(TAG, "onChanged: Something went wrong while removing product from cart from Cart!");
-                    Toast.makeText(requireActivity(), generalResponse.getMsg(), Toast.LENGTH_SHORT).show();
-                    cartViewModel.cartRecyclerViewAdapter.notifyProductRemovedFromCart(
-                            Integer.parseInt(generalResponse.getProd_id()),
-                            cartViewModel.toBeNotifiedProdIdQtyHashMap.get(Integer.parseInt(generalResponse.getProd_id())),
-                            false, null);
-                }
-            } else {
-                Log.i(TAG, "onChanged: 1st time observer fired!");
             }
+
+        } else {
+            Log.i(TAG, "onChanged: Something went wrong while removing product from cart from Cart!");
+            Toast.makeText(requireActivity(), generalResponse.getMsg(), Toast.LENGTH_SHORT).show();
+            cartViewModel.cartRecyclerViewAdapter.notifyProductRemovedFromCart(
+                    Integer.parseInt(generalResponse.getProd_id()),
+                    cartViewModel.toBeNotifiedProdIdQtyHashMap.get(Integer.parseInt(generalResponse.getProd_id())),
+                    false, null);
+        }
+    } else {
+        Log.i(TAG, "onChanged: 1st time observer fired!");
+    }
+}catch (Exception ee){
+
+}
+
         }
     };
 
@@ -589,7 +592,7 @@ public class CartFragment extends Fragment implements OnProductCartListener, Car
         @Override
         public void onChanged(GeneralResponse generalResponse) {
             Log.i(TAG, "onChanged: COMPLETELY REMOVE FROM CART Observer fired!\ngeneralResponse: " + generalResponse);
-try{
+   try{
     if (generalResponse != null) {
         if (generalResponse.getError() == 200) {
             Log.i(TAG, "onChanged: cartViewModel.toBeNotifiedProdIdQtyHashMap.get(generalResponse.getProd_id()): "
@@ -619,31 +622,34 @@ try{
         @Override
         public void onChanged(GeneralResponse generalResponse) {
             Log.i(TAG, "onChanged: PLACE ORDER Observer fired!\ngeneralResponse: " + generalResponse);
+         try{
+             if (generalResponse != null) {
+                 DialogUtil.dismissProcessingInfoDialog();
 
-            if (generalResponse != null) {
-                DialogUtil.dismissProcessingInfoDialog();
+                 if (generalResponse.getError() == 200) {
 
-                if (generalResponse.getError() == 200) {
-
-                    if (cartViewModel.codPayment) {
-                        Log.i(TAG, "onChanged: Order Placed Successfully through COD!");
-                        Toast.makeText(requireActivity(), "Order Placed Successfully through COD!" +
-                                "\nPlease pay the amount at the time of your Order Delivery!", Toast.LENGTH_LONG).show();
-                        clearCart();
-                        orderSuccessful(true);
-                    } else {
-                        //NEW FLOW (AS OF 27-5-22)
+                     if (cartViewModel.codPayment) {
+                         Log.i(TAG, "onChanged: Order Placed Successfully through COD!");
+                         Toast.makeText(requireActivity(), "Order Placed Successfully through COD!" +
+                                 "\nPlease pay the amount at the time of your Order Delivery!", Toast.LENGTH_LONG).show();
+                         clearCart();
+                         orderSuccessful(true);
+                     } else {
+                         //NEW FLOW (AS OF 27-5-22)
 //                        initiateOnlinePayment(cartViewModel.getCashFreeOrderMutableLiveData().getValue().getOrder_token(),
 //                                cartViewModel.getCashFreeOrderMutableLiveData().getValue().getOrder_id());
-                        initiateOnlinePayment(cartViewModel.cashfreeOrderToken, cartViewModel.cashfreeOrderId);
-                    }
-                } else {
-                    Log.i(TAG, "onChanged: Something went wrong while placing order from Cart!");
-                    Toast.makeText(requireActivity(), generalResponse.getMsg(), Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                Log.i(TAG, "onChanged: 1st time observer fired!");
-            }
+                         initiateOnlinePayment(cartViewModel.cashfreeOrderToken, cartViewModel.cashfreeOrderId);
+                     }
+                 } else {
+                     Log.i(TAG, "onChanged: Something went wrong while placing order from Cart!");
+                     Toast.makeText(requireActivity(), generalResponse.getMsg(), Toast.LENGTH_SHORT).show();
+                 }
+             } else {
+                 Log.i(TAG, "onChanged: 1st time observer fired!");
+             }
+
+         }catch (Exception ee){}
+
         }
     };
 
@@ -652,38 +658,43 @@ try{
         public void onChanged(CashFreeOrder cashFreeOrder) {
             Log.i(TAG, "onChanged: CREATE CASH FREE ORDER OBSERVER fired!\ncashFreeOrder: " + cashFreeOrder);
 
-            if (cashFreeOrder != null) {
-                DialogUtil.dismissProcessingInfoDialog();
+            try {
+                if (cashFreeOrder != null) {
+                    DialogUtil.dismissProcessingInfoDialog();
 
-                //Temp try-catch
-                try {
-                    if (!cashFreeOrder.getOrder_status().matches("ERROR")) {
-                        Log.i(TAG, "onChanged: Proceeding to Place Order on MDG Server!");
+                    //Temp try-catch
+                    try {
+                        if (!cashFreeOrder.getOrder_status().matches("ERROR")) {
+                            Log.i(TAG, "onChanged: Proceeding to Place Order on MDG Server!");
 //                    initiateOnlinePayment(cashFreeOrder.getOrder_token(), cashFreeOrder.getOrder_id());
 
-                        cartViewModel.cashfreeOrderId = cashFreeOrder.getOrder_id();
-                        cartViewModel.cashfreeOrderToken = cashFreeOrder.getOrder_token();
-                        Log.i(TAG, "onChanged: id"+cashFreeOrder.getOrder_id());
-                        Log.i(TAG, "onChanged: token"+ cashFreeOrder.getOrder_token());
+                            cartViewModel.cashfreeOrderId = cashFreeOrder.getOrder_id();
+                            cartViewModel.cashfreeOrderToken = cashFreeOrder.getOrder_token();
+                            Log.i(TAG, "onChanged: id"+cashFreeOrder.getOrder_id());
+                            Log.i(TAG, "onChanged: token"+ cashFreeOrder.getOrder_token());
 
 
-                        //NEW FLOW (AS OF 27-5-22)
-                        placeOrder();
-                    } else {
-                        Log.i(TAG, "onChanged: Something went wrong while placing CashFreeOrder.");
-                        Toast.makeText(requireActivity(), cashFreeOrder.getOrder_note(), Toast.LENGTH_SHORT).show();
+                            //NEW FLOW (AS OF 27-5-22)
+                            placeOrder();
+                        } else {
+                            Log.i(TAG, "onChanged: Something went wrong while placing CashFreeOrder.");
+                            Toast.makeText(requireActivity(), cashFreeOrder.getOrder_note(), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception exception) {
+                        Log.i(TAG, "onChanged: Exception caught in CashFreeOrder Response!");
+                        exception.printStackTrace();
+
+                        Toast.makeText(requireActivity(), "Exception in creating order!", Toast.LENGTH_SHORT).show();
                     }
-                } catch (Exception exception) {
-                    Log.i(TAG, "onChanged: Exception caught in CashFreeOrder Response!");
-                    exception.printStackTrace();
-
-                    Toast.makeText(requireActivity(), "Exception in creating order!", Toast.LENGTH_SHORT).show();
+                } else {
+                    // DialogUtil.dismissProcessingInfoDialog();
+                    //  Toast.makeText(getContext(), "null...", Toast.LENGTH_SHORT).show();
+                    Log.i(TAG, "onChanged: 1st time Observer fired!");
                 }
-            } else {
-               // DialogUtil.dismissProcessingInfoDialog();
-              //  Toast.makeText(getContext(), "null...", Toast.LENGTH_SHORT).show();
-                Log.i(TAG, "onChanged: 1st time Observer fired!");
+            }catch (Exception ee){
+
             }
+
         }
     };
 
@@ -692,26 +703,31 @@ try{
         public void onChanged(SplitOrderResponse splitOrderResponse) {
             Log.i(TAG, "onChanged: SPLIT ORDER Observer fired!\nsplitOrderResponse: " + splitOrderResponse);
 
-            if (splitOrderResponse != null) {
-                DialogUtil.dismissProcessingInfoDialog();
+            try {
+                if (splitOrderResponse != null) {
+                    DialogUtil.dismissProcessingInfoDialog();
 
-                if (!splitOrderResponse.getStatus().matches("ERROR")) {
-                    Log.i(TAG, "onChanged: Split Order API post MDG Place Order Execute Success!");
+                    if (!splitOrderResponse.getStatus().matches("ERROR")) {
+                        Log.i(TAG, "onChanged: Split Order API post MDG Place Order Execute Success!");
 
-                    DialogUtil.showCustomSnackbar(requireActivity(), cartSwipeRefreshLayout,
-                            "Payment Completed!\nOrder Placed Successfully\nThank You for Shopping with us!", -1);
+                        DialogUtil.showCustomSnackbar(requireActivity(), cartSwipeRefreshLayout,
+                                "Payment Completed!\nOrder Placed Successfully\nThank You for Shopping with us!", -1);
+                    } else {
+                        Log.i(TAG, "onChanged: Split Order API post MDG Place Order Execute Failed!");
+                        Toast.makeText(requireActivity(), "Payment Completed!\nOrder Placed with some difficulties." +
+                                "\nThank You for Shopping with us!", Toast.LENGTH_SHORT).show();
+                    }
+
+                    /* HIT CART API OVER HERE AS WELL/MIGHT INSTEAD JUST EMPTY THE CART. */
+                    clearCart();
+                    orderSuccessful(true);
                 } else {
-                    Log.i(TAG, "onChanged: Split Order API post MDG Place Order Execute Failed!");
-                    Toast.makeText(requireActivity(), "Payment Completed!\nOrder Placed with some difficulties." +
-                            "\nThank You for Shopping with us!", Toast.LENGTH_SHORT).show();
+                    Log.i(TAG, "onChanged: 1st time observer fired!");
                 }
+            }catch (Exception ee){
 
-                /* HIT CART API OVER HERE AS WELL/MIGHT INSTEAD JUST EMPTY THE CART. */
-                clearCart();
-                orderSuccessful(true);
-            } else {
-                Log.i(TAG, "onChanged: 1st time observer fired!");
             }
+
         }
     };
 
@@ -721,29 +737,32 @@ try{
       //  public void onChanged(OrderAcceptResponse orderAcceptResponse) {
         public void onChanged(OrderAcceptCartFragmentResponse orderAcceptResponse) {
             Log.i(TAG, "onChanged: ORDER ACCEPTANCE Observer fired!\norderAcceptResponse: " + orderAcceptResponse);
+          try{
 
-            if (orderAcceptResponse != null) {
-                DialogUtil.dismissProcessingInfoDialog();
+              if (orderAcceptResponse != null) {
+                  DialogUtil.dismissProcessingInfoDialog();
 
-                if (orderAcceptResponse.getError() == 200) {
-                    /* 0 = Success (Can Place Order in Store);  1 = Store Inactive (Can't accept anymore Orders)*/
-                    if (orderAcceptResponse.getStatus() == 0) {
-                        Log.i(TAG, "onChanged: Vendor Accepting Orders, Proceeding to place Order.");
+                  if (orderAcceptResponse.getError() == 200) {
+                      /* 0 = Success (Can Place Order in Store);  1 = Store Inactive (Can't accept anymore Orders)*/
+                      if (orderAcceptResponse.getStatus() == 0) {
+                          Log.i(TAG, "onChanged: Vendor Accepting Orders, Proceeding to place Order.");
 
-                        selectPaymentMode();
-                    } else {
-                        Log.i(TAG, "onChanged: Vendor Not Accepting Orders! Can't place Orders.");
+                          selectPaymentMode();
+                      } else {
+                          Log.i(TAG, "onChanged: Vendor Not Accepting Orders! Can't place Orders.");
 //                        DialogUtil.showCustomSnackbar(requireActivity(), cartSwipeRefreshLayout,
 //                                "Sorry, Vendor is not accepting any Orders at the moment!\nPlease try again later!", -1);
-                        DialogUtil.showCustomSnackbar(requireActivity(), cartSwipeRefreshLayout, orderAcceptResponse.getMsg(), -1);
-                    }
-                } else {
-                    Log.i(TAG, "onChanged: Something went wrong while Checking for Vendor Order Acceptance!");
-                    Toast.makeText(requireActivity(), orderAcceptResponse.getMsg(), Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                Log.i(TAG, "onChanged: 1st time observer fired!");
-            }
+                          DialogUtil.showCustomSnackbar(requireActivity(), cartSwipeRefreshLayout, orderAcceptResponse.getMsg(), -1);
+                      }
+                  } else {
+                      Log.i(TAG, "onChanged: Something went wrong while Checking for Vendor Order Acceptance!");
+                      Toast.makeText(requireActivity(), orderAcceptResponse.getMsg(), Toast.LENGTH_SHORT).show();
+                  }
+              } else {
+                  Log.i(TAG, "onChanged: 1st time observer fired!");
+              }
+          }catch (Exception ee){}
+
         }
     };
 
@@ -751,29 +770,31 @@ try{
         @Override
         public void onChanged(OrderAcceptResponse orderAcceptResponse) {
             Log.i(TAG, "onChanged: PROD ADD ACCEPTANCE Observer fired!\norderAcceptResponse: " + orderAcceptResponse);
+           try{
+               if (orderAcceptResponse != null) {
+                   DialogUtil.dismissProcessingInfoDialog();
 
-            if (orderAcceptResponse != null) {
-                DialogUtil.dismissProcessingInfoDialog();
+                   if (orderAcceptResponse.getError() == 200) {
+                       /* 0 = Success (Can Place Order in Store);  1 = Store Inactive (Can't accept anymore Orders)*/
+                       if (orderAcceptResponse.getStatus() != 0) {
+                           Log.i(TAG, "onChanged: Vendor Not Accepting Orders! Can't add to cart.");
+                           DialogUtil.showCustomSnackbar(requireActivity(), cartSwipeRefreshLayout, orderAcceptResponse.getMsg(), -1);
 
-                if (orderAcceptResponse.getError() == 200) {
-                    /* 0 = Success (Can Place Order in Store);  1 = Store Inactive (Can't accept anymore Orders)*/
-                    if (orderAcceptResponse.getStatus() != 0) {
-                        Log.i(TAG, "onChanged: Vendor Not Accepting Orders! Can't add to cart.");
-                        DialogUtil.showCustomSnackbar(requireActivity(), cartSwipeRefreshLayout, orderAcceptResponse.getMsg(), -1);
+                           cartViewModel.cartRecyclerViewAdapter.notifyProductAddedInCart(cartViewModel.toBeAddedProductId,
+                                   cartViewModel.toBeAddedProductQty, false, null);
+                       }
+                   } else {
+                       Log.i(TAG, "onChanged: Something went wrong while Checking for Vendor Prod Add Acceptance!");
+                       Toast.makeText(requireActivity(), orderAcceptResponse.getMsg(), Toast.LENGTH_SHORT).show();
 
-                        cartViewModel.cartRecyclerViewAdapter.notifyProductAddedInCart(cartViewModel.toBeAddedProductId,
-                                cartViewModel.toBeAddedProductQty, false, null);
-                    }
-                } else {
-                    Log.i(TAG, "onChanged: Something went wrong while Checking for Vendor Prod Add Acceptance!");
-                    Toast.makeText(requireActivity(), orderAcceptResponse.getMsg(), Toast.LENGTH_SHORT).show();
+                       cartViewModel.cartRecyclerViewAdapter.notifyProductAddedInCart(cartViewModel.toBeAddedProductId,
+                               cartViewModel.toBeAddedProductQty, false, null);
+                   }
+               } else {
+                   Log.i(TAG, "onChanged: Null observer fired!");
+               }
+           }catch (Exception ee){}
 
-                    cartViewModel.cartRecyclerViewAdapter.notifyProductAddedInCart(cartViewModel.toBeAddedProductId,
-                            cartViewModel.toBeAddedProductQty, false, null);
-                }
-            } else {
-                Log.i(TAG, "onChanged: Null observer fired!");
-            }
         }
     };
 
@@ -781,37 +802,40 @@ try{
         @Override
         public void onChanged(String s) {
             Log.i(TAG, "onChanged: POST PAYMENT Observer fired! s: " + s);
+     try{
 
-            if (s != null) {
-                if (!s.toUpperCase().matches("FAILED")) {
-                    //SUCCESS PAYMENT CASE
-                    Log.i(TAG, "onChanged: Payment Success!");
+         if (s != null) {
+             if (!s.toUpperCase().matches("FAILED")) {
+                 //SUCCESS PAYMENT CASE
+                 Log.i(TAG, "onChanged: Payment Success!");
 
-                    //New API for updating order with orderId & payment bit 1.
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (!cartViewModel.postPaymentNotifyMDGServer(s)) {
-                                requireActivity().runOnUiThread(() -> {
-                                    DialogUtil.showNoInternetToast(requireActivity());
-                                });
+                 //New API for updating order with orderId & payment bit 1.
+                 new Thread(new Runnable() {
+                     @Override
+                     public void run() {
+                         if (!cartViewModel.postPaymentNotifyMDGServer(s)) {
+                             requireActivity().runOnUiThread(() -> {
+                                 DialogUtil.showNoInternetToast(requireActivity());
+                             });
 
-                            } else {
-                                requireActivity().runOnUiThread(() -> {
-                                    DialogUtil.showProcessingInfoDialog(requireActivity());
-                                });
+                         } else {
+                             requireActivity().runOnUiThread(() -> {
+                                 DialogUtil.showProcessingInfoDialog(requireActivity());
+                             });
 
-                            }
-                        }
-                    }).start();
+                         }
+                     }
+                 }).start();
 
-                } else {
-                    //FAILED PAYMENT CASE
-                    Toast.makeText(requireActivity(), "Payment Unsuccessful!\nOrder Not Placed!\nPlease try again later!", Toast.LENGTH_SHORT).show();
-                }
-            } else {
-                Log.i(TAG, "onChanged: Null Observer fired!");
-            }
+             } else {
+                 //FAILED PAYMENT CASE
+                 Toast.makeText(requireActivity(), "Payment Unsuccessful!\nOrder Not Placed!\nPlease try again later!", Toast.LENGTH_SHORT).show();
+             }
+         } else {
+             Log.i(TAG, "onChanged: Null Observer fired!");
+         }
+     }catch (Exception ee){}
+
         }
     };
 
@@ -925,12 +949,12 @@ try{
 
             if (b) {
                 flatShippingCostMaterialTextView.setText(requireActivity().getString(R.string.rupee_symbol) + " 0");
-
                 totalPayableMaterialTextView.setText(requireActivity().getString(R.string.rupee_symbol) + " " + (totalPayablePrice - flatShippingCost));
+
             } else {
                 flatShippingCostMaterialTextView.setText(requireActivity().getString(R.string.rupee_symbol) + " " + flatShippingCost);
-
                 totalPayableMaterialTextView.setText(requireActivity().getString(R.string.rupee_symbol) + " " + (totalPayablePrice + flatShippingCost));
+
             }
         }
     };

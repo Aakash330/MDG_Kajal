@@ -181,6 +181,12 @@
     <!--    <string name="weak_internet_connection">Weak Internet Connection! Request Failed!\nPlease try again later!</string>-->
     <string name="weak_internet_connection">Connection Timeout Error!\nPlease try again now or sometime later!</string>
     <string name="connection_timed_out">Connection Timeout Error!\nPlease try again now or sometime later!</string>
+    <string name="refund_status">Refund Status</string>
+    <string name="ordered_from">Ordered From:</string>
+    <string name="order_delivery">Order Delivery:</string>
+    <string name="order_payment">Order Payment:</string>
+    <string name="no_of_items">No. of Items:</string>
+    <string name="gross_total">Gross Total:</string>
     <!--GENERAL - END-->
     <integer name="cashfree_pg_logging_level">5</integer>
 </resources>

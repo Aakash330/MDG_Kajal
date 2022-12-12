@@ -642,6 +642,7 @@ public class BestDealsFragment extends Fragment implements OnProductCartListener
                         + bestDealsViewModel.toBeNotifiedProdIdQtyHashMap.toString());
 
                 HashMap<Integer, Integer> prodIdQtyHashMap = ApplicationData.getProdIdOrderQtyHashMap();
+                //Problem
                 if (qty == 1) {
                     prodIdQtyHashMap.remove(productId);
                 } else {

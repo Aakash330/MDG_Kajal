@@ -575,7 +575,7 @@ public class CartFragmentTesting extends Fragment {
 //        }
         selfPickup = 1;
         //Improved on 23-8-22
-       /* if (cartViewModel.getCart().getCart_data().getShipping_data() != null) {
+        if (cartViewModel.getCart().getCart_data().getShipping_data() != null) {
             if (cartViewModel.getCart().getCart_data().getShipping_data().getHomedeliver() == 1) {
                 if (selfPickupAllowedMaterialCheckBox.isChecked()) {
                     selfPickup = 1;
@@ -603,7 +603,7 @@ public class CartFragmentTesting extends Fragment {
             //Just a precautionary measure. Will never reach here.
             Log.i(TAG, "placeOrder: Shipping data was Null.");
             selfPickup = 1;
-        }*///@kajal_12_9_22
+        }//@kajal_12_9_22
 
 //        if (selfPickupAllowedMaterialCheckBox.isChecked()) {
 //            selfPickup = 1;

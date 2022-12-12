@@ -64,8 +64,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".UI.Activities.ParentActivity"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            android:singleUser="true"
+            android:exported="true"
             android:theme="@style/Theme.MyDailyGoodsCustomer.NoActionBar" />
         <activity
             android:name=".UI.Activities.SplashActivity"
